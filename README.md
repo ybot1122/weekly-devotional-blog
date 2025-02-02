@@ -1,4 +1,5 @@
 Color scheme: #00A5E0
+Font: Funnel-Sans
 
 # Astro Starter Kit: Blog
 
