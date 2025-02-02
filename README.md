@@ -1,3 +1,5 @@
+Color scheme: #00A5E0
+
 # Astro Starter Kit: Blog
 
 ```sh
