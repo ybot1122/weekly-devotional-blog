@@ -1,0 +1,22 @@
+---
+title: "Walking With God"
+description: "There is something inherently limiting about the pursuit of endless knowledge. Over time, I've observed that those who accumulate too much information often end up doing very little with it."
+pubDate: "Feb 3 2025"
+heroImage: "https://res.cloudinary.com/dryy6uo6k/image/upload/v1738606017/greek_gekobx.jpg"
+---
+
+There is something inherently limiting about the pursuit of endless knowledge. Over time, I've observed that those who accumulate too much information often end up doing very little with it. The reason, I have found, comes down to a lack of faith. It is very hard to exercise faith when you believe you know—or think you know—the outcome of things. Consider Nathaniel’s question in John 1:46, “Can anything good come out of Nazareth?” Knowledge gathers data, searches for patterns, and encourages us to act based on empirical trends. Yet faith asks us to set aside that reliance and embrace Nazareth as though we were hearing about it for the very first time.
+
+Take the creation narrative, for example. The earth is described as “without form, and void” (Genesis 1:2). A purely logical mind might have said, “There’s nothing here; let’s move on.” But revelation would have declared, “Wait a minute—He calls forth things that are not” (Romans 4:17). While the world encourages us to explore and discover ourselves, the truth is that our very self often becomes the greatest barrier to experiencing the supernatural. We must learn to set aside all that we think we know when we receive God’s word. Genesis 5:24 tells us, “And Enoch walked with God: and he was not; for God took him.” Enoch pleased God. In a time when God increasingly wished He had left things as void as He found them, someone was able to please Him. God took him immediately so that he would not see corruption. In Genesis 6, another person came along who walked with God—and then God decided to use him to begin afresh: Noah. The Bible doesn’t tell us much about Enoch, but with Noah we can see what walking with God actually meant. It was as simple as it sounded: he pleased God. He followed God's instructions, even though every piece of information around him said otherwise. He believed God about the flood that was coming; he was building an ark even though there was no evidence to support it. Quite simply, he set aside all the information he knew—or that he was receiving from those around him—and followed the Word to the letter. Had Noah not been building an ark, God might have taken him immediately.
+
+When we approach God’s word based solely on what we know or think we know, our focus shifts from experiencing an intimate relationship with God to forming a relationship with the idea of God. We become preoccupied with deciphering what we believe God wants to do, instead of simply obeying His commands. The Bible reminds us in John 8:32 that “the truth will set you free”—not through the mere accumulation of information, but through divine revelation. Revelation comes when we embrace the Word, however simple or even seemingly foolish that may sound. As Jesus taught in Matthew 5:37, let your “Yes” be “Yes,” and your “No,” “No.” If God says go, we should go—even if we are at the end of the road. We need to stop trying to autocorrect God. His yes is always yes.
+
+Psalm 95:8-9 offers an important warning: when we become overly familiar with God’s words or works, we tend to take matters into our own hands. Despite witnessing God’s mighty acts firsthand, the people hardened their hearts and fell into a spiritual malaise, choosing to discount all that the Lord had done so that they could cling to how they felt about themselves. I don’t know how you feel about yourself, but if God says you can take the land, He means it, He already knows that you cannot do it in your own strength and He never wants you to do it in your own strength, whenever God gives His word, He is always saying, take my hands. I will help you. I will work through you. I am never leaving you alone. God never walks away from the void because He is the creator. A creator is needed when things are pretty void. God wants you to build an ark because you are going to save many from the world, not just your family; but you must walk with Him to get all the required details.
+
+**Bible Readings:**<br />
+Monday: John 1: 42-50<br />
+Tuesday: Romans 4:13-25<br />
+Wednesday: John 8:31-47<br />
+Thursday: Isaiah 30:18-26<br />
+Friday: Acts 9:1-9<br />
+Saturday: Acts 10
