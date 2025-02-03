@@ -17,11 +17,10 @@ import { SITE_TITLE } from "../consts";
   header {
     margin: 0;
     padding: 0 1em;
-    background: white;
-    box-shadow: 0 2px 8px rgba(var(--black), 5%);
   }
   h2 a,
   h2 a.active {
+    color: var(--black);
     text-decoration: none;
   }
   nav {
@@ -36,6 +35,10 @@ import { SITE_TITLE } from "../consts";
     width: 100%;
     text-align: center;
   }
+
+  nav .internal-links a {
+    color: var(--black);
+  }
   @media screen and (min-width: 768px) {
     nav .internal-links {
       width: auto;
@@ -43,13 +46,12 @@ import { SITE_TITLE } from "../consts";
   }
   nav a {
     padding: 1em 0.5em;
-    color: var(--black);
     border-bottom: 4px solid transparent;
     text-decoration: none;
   }
   nav a.active {
     text-decoration: none;
-    border-bottom-color: var(--accent);
+    border-bottom-color: var(--primary);
   }
 
   h2 {
