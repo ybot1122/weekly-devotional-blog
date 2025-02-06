@@ -32,6 +32,11 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
         </ul>
       </p>
       <p>Have fun!</p>
+      <form action="/signup" method="POST">
+        <label for="email">Sign up for our email list:</label>
+        <input type="email" id="email" name="email" required />
+        <button type="submit">Sign Up</button>
+      </form>
     </main>
     <Footer />
   </body>
