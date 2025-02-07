@@ -3,6 +3,7 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import Spinner from "../components/Spinner.astro";
 ---
 
 <!doctype html>
@@ -32,11 +33,21 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
         </ul>
       </p>
       <p>Have fun!</p>
-      <form method="POST" action="/api/mailing_list_signup">
+      <form id="mailing_list_signup">
         <label for="email">Sign up for our email list:</label>
-        <input type="text" id="name" name="name" required />
-        <input type="email" id="email" name="email" required />
-        <button type="submit">Sign Up</button>
+        <input placeholder="Name" type="text" id="name" name="name" required />
+        <input
+          placeholder="Email"
+          type="email"
+          id="email"
+          name="email"
+          required
+        />
+        <div id="button_container">
+          <button id="submit_button" type="submit">Sign Up</button>
+          <div id="message"></div>
+          <div id="spinner"><Spinner /></div>
+        </div>
       </form>
     </main>
     <Footer />
@@ -46,4 +57,57 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
   main {
     min-height: 100vh;
   }
+
+  #button_container {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+
+  #mailing_list_signup {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+
+  #spinner {
+    visibility: hidden;
+  }
 </style>
+<script>
+  const form = document.getElementById("mailing_list_signup")!;
+  const button = document.getElementById("submit_button")!;
+  const spinner = document.getElementById("spinner")!;
+  const message = document.getElementById("message")!;
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    console.log(event);
+    const target = event.target as HTMLFormElement;
+    const formData = new FormData(target);
+
+    button.setAttribute("disabled", "true");
+    while (message.firstChild) {
+      message.removeChild(message.firstChild);
+    }
+    button.style.display = "none";
+    spinner.style.visibility = "visible";
+    fetch("/api/mailing_list_signup", {
+      method: "POST",
+      body: formData,
+    })
+      .then((result) => {
+        if (result.status !== 200) {
+          throw new Error("Failed to submit");
+        }
+        message.appendChild(document.createTextNode("Thanks for signing up!"));
+        spinner.style.visibility = "hidden";
+      })
+      .catch((error) => {
+        message.appendChild(document.createTextNode("There was an error."));
+        button.removeAttribute("disabled");
+        button.style.display = "block";
+        spinner.style.visibility = "hidden";
+      });
+  });
+</script>
