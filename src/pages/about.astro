@@ -20,6 +20,8 @@ import Layout from "../layouts/BlogPost.astro";
     <p><br /></p>
   </div>
 
+  <button id="submit" type="button">Get Contents</button>
+
   <!-- Include the Quill library -->
 </Layout>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.min.js"
@@ -29,7 +31,7 @@ import Layout from "../layouts/BlogPost.astro";
 <script>
   document.addEventListener("DOMContentLoaded", function (event) {
     // @ts-expect-error Quill is not defined
-    var quill = new Quill("#editor", {
+    const quill = new Quill("#editor", {
       theme: "snow",
       modules: {
         toolbar: [
@@ -39,5 +41,13 @@ import Layout from "../layouts/BlogPost.astro";
         ],
       },
     });
+    document
+      .getElementById("submit")!
+      .addEventListener("click", function (event) {
+        var html = quill.root.innerHTML;
+        console.log(html);
+        console.log(quill.getSemanticHTML());
+        console.log(quill.getContents());
+      });
   });
 </script>
