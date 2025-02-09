@@ -3,6 +3,8 @@ import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+
+const t = import.meta.env.TEST_SECRET;
 ---
 
 <!doctype html>
@@ -27,7 +29,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
         <p><br /></p>
       </div>
 
-      <button id="submit" type="button">Get Contents</button>
+      <button id="submit" type="button">Get Contents {t}</button>
     </main>
     <Footer />
   </body>
