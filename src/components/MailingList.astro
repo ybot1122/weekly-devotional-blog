@@ -1,0 +1,80 @@
+---
+import Spinner from "../components/Spinner.astro";
+---
+
+<form id="mailing_list_signup">
+  <label for="email">Sign up for our email list:</label>
+  <input placeholder="Name" type="text" id="name" name="name" required />
+  <input placeholder="Email" type="email" id="email" name="email" required />
+  <div id="button_container">
+    <button id="submit_button" type="submit">Sign Up</button>
+    <div id="message"></div>
+    <div id="spinner"><Spinner /></div>
+  </div>
+</form>
+<style>
+  #button_container {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+  }
+
+  #mailing_list_signup {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    max-width: 320px;
+    border: 2px var(--accent-dark) dashed;
+    padding: 2em;
+    margin: 0 auto;
+  }
+
+  #mailing_list_signup input {
+    padding: 1em;
+  }
+
+  #spinner {
+    visibility: hidden;
+  }
+
+  #submit_button {
+    padding: 1em;
+  }
+</style>
+<script>
+  const form = document.getElementById("mailing_list_signup")!;
+  const button = document.getElementById("submit_button")!;
+  const spinner = document.getElementById("spinner")!;
+  const message = document.getElementById("message")!;
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    console.log(event);
+    const target = event.target as HTMLFormElement;
+    const formData = new FormData(target);
+
+    button.setAttribute("disabled", "true");
+    while (message.firstChild) {
+      message.removeChild(message.firstChild);
+    }
+    button.style.display = "none";
+    spinner.style.visibility = "visible";
+    fetch("/api/mailing_list_signup", {
+      method: "POST",
+      body: formData,
+    })
+      .then((result) => {
+        if (result.status !== 200) {
+          throw new Error("Failed to submit");
+        }
+        message.appendChild(document.createTextNode("Thanks for signing up!"));
+        spinner.style.visibility = "hidden";
+      })
+      .catch((error) => {
+        message.appendChild(document.createTextNode("There was an error."));
+        button.removeAttribute("disabled");
+        button.style.display = "block";
+        spinner.style.visibility = "hidden";
+      });
+  });
+</script>

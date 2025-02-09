@@ -2,52 +2,10 @@
 import Layout from "../layouts/BlogPost.astro";
 ---
 
-<!-- Include stylesheet -->
-<link
-  href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css"
-  rel="stylesheet"
-/>
-
 <Layout
   title="About Me"
   description="Lorem ipsum dolor sit amet"
   pubDate={new Date("August 08 2021")}
 >
-  <!-- Create the editor container -->
-  <div id="editor">
-    <p>Hello World!</p>
-    <p>Some initial <strong>bold</strong> text</p>
-    <p><br /></p>
-  </div>
-
-  <button id="submit" type="button">Get Contents</button>
-
-  <!-- Include the Quill library -->
+  <p>Hello</p>
 </Layout>
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.min.js"
-></script>
-
-<!-- Initialize Quill editor -->
-<script>
-  document.addEventListener("DOMContentLoaded", function (event) {
-    // @ts-expect-error Quill is not defined
-    const quill = new Quill("#editor", {
-      theme: "snow",
-      modules: {
-        toolbar: [
-          ["bold", "italic", "underline"],
-          ["link"],
-          [{ list: "ordered" }, { list: "bullet" }],
-        ],
-      },
-    });
-    document
-      .getElementById("submit")!
-      .addEventListener("click", function (event) {
-        var html = quill.root.innerHTML;
-        console.log(html);
-        console.log(quill.getSemanticHTML());
-        console.log(quill.getContents());
-      });
-  });
-</script>
