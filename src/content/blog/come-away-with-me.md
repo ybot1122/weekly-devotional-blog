@@ -2,7 +2,7 @@
 title: "Come Away With Me"
 description: "Last night was the Super Bowl—the American football equivalent of the FIFA World Cup. But it wasn’t just about the game. It was about something else, too: the staggering price of attention. A single 30-second ad cost a record-breaking $8 million. Let that sink in."
 pubDate: "Feb 10 2025"
-heroImage: "https://res.cloudinary.com/dryy6uo6k/image/upload/v1733357270/sample.jpg"
+heroImage: "https://res.cloudinary.com/dryy6uo6k/image/upload/v1739210125/sunset-on-the-shore-debra-dickson_issdqn.jpg"
 ---
 
 Last night was the Super Bowl—the American football equivalent of the FIFA World Cup. But it wasn’t just about the game. It was about something else, too: the staggering price of attention. A single 30-second ad cost a record-breaking $8 million. Let that sink in. Eight million dollars for half a minute of airtime. That kind of spending speaks volumes about what our culture values: visibility, influence, and the fleeting power of a well-placed message. But in a world willing to invest so much in moments that vanish in an instant, it’s worth asking—what are we investing in that actually lasts?
