@@ -9,8 +9,11 @@ export const POST: APIRoute = async ({ request }) => {
   const email = data.get("email")?.toString();
 
   const BREVO_API_KEY = import.meta.env.BREVO_API_KEY;
+  const SENDER_EMAIL = import.meta.env.SENDER_EMAIL;
+  const RECIPIENT_EMAIL = import.meta.env.RECIPIENT_EMAIL;
+  const RECIPIENT_NAME = import.meta.env.RECIPIENT_NAME;
 
-  if (!BREVO_API_KEY) {
+  if (!BREVO_API_KEY || !SENDER_EMAIL) {
     return new Response(
       JSON.stringify({
         message: "Missing API key",
@@ -29,10 +32,10 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const res = await sendTransactionalEmail({
-    senderName: name,
-    senderEmail: email,
-    recipientEmail: "ybotuil2211@gmail.com",
-    recipientName: "Toby",
+    senderName: "Mailing List Signup",
+    senderEmail: SENDER_EMAIL,
+    recipientEmail: RECIPIENT_EMAIL,
+    recipientName: RECIPIENT_NAME,
     subject: `New mailing list signup from ${name}`,
     brevoApiKey: BREVO_API_KEY,
     htmlContent: `
