@@ -1,26 +1,27 @@
 export const prerender = false; // Not needed in 'server' mode
+
 import type { APIRoute } from "astro";
+import { sendTransactionalEmail } from "@ybot1122/toby-ui/Sdk/Brevo/sendTransactionalEmail";
 
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData();
-  const name = data.get("name");
-  const email = data.get("email");
+  const name = data.get("name")?.toString();
+  const email = data.get("email")?.toString();
 
-  // TEMP
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  const BREVO_API_KEY = import.meta.env.BREVO_API_KEY;
+  const SENDER_EMAIL = import.meta.env.SENDER_EMAIL;
+  const RECIPIENT_EMAIL = import.meta.env.RECIPIENT_EMAIL;
+  const RECIPIENT_NAME = import.meta.env.RECIPIENT_NAME;
 
-  console.log(name, email);
-
-  if (name !== "Toby") {
+  if (!BREVO_API_KEY || !SENDER_EMAIL) {
     return new Response(
       JSON.stringify({
-        message: "Missing required fields",
+        message: "Missing API key",
       }),
-      { status: 400 }
+      { status: 500 }
     );
   }
 
-  // Validate the data - you'll probably want to do more than this
   if (!name || !email) {
     return new Response(
       JSON.stringify({
@@ -29,8 +30,32 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 400 }
     );
   }
-  // Do something with the data, then return a success response
-  console.log(name, email);
+
+  const res = await sendTransactionalEmail({
+    senderName: "Mailing List Signup",
+    senderEmail: SENDER_EMAIL,
+    recipientEmail: RECIPIENT_EMAIL,
+    recipientName: RECIPIENT_NAME,
+    subject: `New mailing list signup from ${name}`,
+    brevoApiKey: BREVO_API_KEY,
+    htmlContent: `
+      <p>You have a new mailing list signup!</p>
+      <p>Name: ${name}</p>
+      <p>Email: ${email}</p>
+    `,
+  });
+
+  console.log(res);
+
+  if (!res) {
+    return new Response(
+      JSON.stringify({
+        message: "Something went wrong",
+      }),
+      { status: 500 }
+    );
+  }
+
   return new Response(
     JSON.stringify({
       message: "Success!",
