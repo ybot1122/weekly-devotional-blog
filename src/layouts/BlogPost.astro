@@ -16,9 +16,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
     <BaseHead title={title} description={description} />
     <style>
       main {
-        width: calc(100% - 2em);
-        max-width: 100%;
-        margin: 0;
+        width: 960px;
       }
       .hero-image {
         width: 100%;
@@ -26,6 +24,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
       .hero-image img {
         display: block;
         margin: 0 auto;
+        width: 100%;
         border-radius: 12px;
         box-shadow: var(--box-shadow);
         max-height: 450px;
