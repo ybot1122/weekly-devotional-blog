@@ -36,6 +36,12 @@ export const POST: APIRoute = async ({ request }) => {
     senderEmail: SENDER_EMAIL,
     recipientEmail: RECIPIENT_EMAIL,
     recipientName: RECIPIENT_NAME,
+    cc: [
+      {
+        email: "ybot1122@gmail.com",
+        name: "Toby",
+      },
+    ],
     subject: `New mailing list signup from ${name}`,
     brevoApiKey: BREVO_API_KEY,
     htmlContent: `
