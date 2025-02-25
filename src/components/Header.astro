@@ -5,7 +5,11 @@ import { SITE_TITLE } from "../consts";
 
 <header>
   <nav>
-    <h2><a href="/">{SITE_TITLE}</a></h2>
+    <h2>
+      <a href="/" class="logo-container"
+        ><img class="logo" src="/logo_1.png" />{SITE_TITLE}</a
+      >
+    </h2>
     <div class="internal-links">
       <HeaderLink href="/">Home</HeaderLink>
       <HeaderLink href="/devotionals">Devotionals</HeaderLink>
@@ -13,6 +17,15 @@ import { SITE_TITLE } from "../consts";
   </nav>
 </header>
 <style>
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo {
+    height: 50px;
+    margin-right: 0.5em;
+  }
   header {
     margin: 0;
     padding: 0 1em;

@@ -14,8 +14,28 @@ import MailingList from "../components/MailingList.astro";
   <body>
     <Header />
     <main>
-      <h1>Hello!</h1>
-      <p>Have fun!</p>
+      <h3>Hey there!</h3>
+      <h1>Welcome to Xformotion</h1>
+      <p>A space where transformation isn't just possible—it's inevitable.</p>
+      <p>
+        <span class="b">Transformotion</span> is a brilliant blend of <span
+          class="b">transformation</span
+        >
+        and <span class="b">motion</span>! It conveys the idea that faith isn't
+        static — <span class="b">it's active, evolving, and life-changing</span
+        >. Each week, we dive into God's word, uncovering unmissable evidence of
+        His presence, power, and purpose in our lives. Whether you're searching
+        for clarity, strength, or a fresh perspective, these devotionals will
+        challenge you to grow and remind you that real change happens when we
+        align our hearts with His truth. Faith isn't meant to be stagnant—it's
+        meant to move, shape, and transform us.
+      </p><p>
+        Take a moment to reflect, reset, and step into the transformation
+        waiting for you.
+      </p>
+      <div class="all">
+        <h3><a href="/devotionals">Click here to see all devotionals</a></h3>
+      </div>
       <MailingList />
     </main>
     <Footer />
@@ -24,5 +44,23 @@ import MailingList from "../components/MailingList.astro";
 <style>
   main {
     min-height: 100vh;
+  }
+
+  .all {
+    text-align: center;
+    margin: 2em 0;
+  }
+
+  .all a {
+    display: inline-block;
+    text-decoration: none;
+  }
+  .all a.active {
+    font-weight: bolder;
+    text-decoration: underline;
+  }
+
+  .b {
+    font-weight: bold;
   }
 </style>
