@@ -4,6 +4,13 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import MailingList from "../components/MailingList.astro";
+
+import { getCollection } from "astro:content";
+import FormattedDate from "../components/FormattedDate.astro";
+
+const post = (await getCollection("blog"))
+  .filter((a) => a.id !== "using-mdx")
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())[0];
 ---
 
 <!doctype html>
@@ -33,17 +40,69 @@ import MailingList from "../components/MailingList.astro";
         Take a moment to reflect, reset, and step into the transformation
         waiting for you.
       </p>
+      <hr />
+      <div class="latest">
+        <a href={`/devotionals/${post.id}/`} class="latest-link">
+          <div class="text-overlay">
+            <div class="scrim">
+              <h4 class="title">{post.data.title}</h4>
+              <p class="date">
+                <FormattedDate date={post.data.pubDate} />
+              </p>
+            </div>
+          </div>
+          <img
+            width={720}
+            height={360}
+            src={post.data.heroImage}
+            alt=""
+            class="bg"
+          />
+        </a>
+      </div>
+      <hr />
       <div class="all">
         <h3><a href="/devotionals">Click here to see all devotionals</a></h3>
       </div>
+      <hr />
       <MailingList />
     </main>
     <Footer />
   </body>
 </html>
 <style>
+  hr {
+    border-color: var(--black);
+  }
   main {
     min-height: 100vh;
+  }
+
+  .latest {
+    margin-top: 2em;
+    position: relative;
+  }
+
+  .latest .text-overlay {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+  }
+
+  .scrim {
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 1em;
+  }
+
+  .scrim h4 {
+    color: white;
+    margin-top: 1em;
   }
 
   .all {
