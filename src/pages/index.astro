@@ -22,15 +22,9 @@ const post = (await getCollection("blog"))
     <Header />
     <main>
       <h3>Hey there!</h3>
-      <h1>Welcome to Xformotion</h1>
-      <p>A space where transformation isn't just possible—it's inevitable.</p>
+      <h1>Welcome</h1>
       <p>
-        <span class="b">Transformotion</span> is a brilliant blend of <span
-          class="b">transformation</span
-        >
-        and <span class="b">motion</span>! It conveys the idea that faith isn't
-        static — <span class="b">it's active, evolving, and life-changing</span
-        >. Each week, we dive into God's word, uncovering unmissable evidence of
+        Each week, we dive into God's word, uncovering unmissable evidence of
         His presence, power, and purpose in our lives. Whether you're searching
         for clarity, strength, or a fresh perspective, these devotionals will
         challenge you to grow and remind you that real change happens when we
@@ -42,12 +36,13 @@ const post = (await getCollection("blog"))
       </p>
       <hr />
       <div class="latest">
+        <h3>Latest Devotional</h3>
         <a href={`/devotionals/${post.id}/`} class="latest-link">
           <div class="text-overlay">
             <div class="scrim">
               <h4 class="title">{post.data.title}</h4>
               <p class="date">
-                <FormattedDate date={post.data.pubDate} />
+                Published <FormattedDate date={post.data.pubDate} /> by Inya N.
               </p>
             </div>
           </div>
@@ -62,7 +57,7 @@ const post = (await getCollection("blog"))
       </div>
       <hr />
       <div class="all">
-        <h3><a href="/devotionals">Click here to see all devotionals</a></h3>
+        <h3><a href="/devotionals">View all devotionals</a></h3>
       </div>
       <hr />
       <MailingList />
@@ -73,6 +68,7 @@ const post = (await getCollection("blog"))
 <style>
   hr {
     border-color: var(--black);
+    margin: 2em 0;
   }
   main {
     min-height: 100vh;
@@ -81,6 +77,10 @@ const post = (await getCollection("blog"))
   .latest {
     margin-top: 2em;
     position: relative;
+  }
+
+  .latest h3 {
+    margin-bottom: 1em;
   }
 
   .latest .text-overlay {
@@ -112,8 +112,17 @@ const post = (await getCollection("blog"))
 
   .all a {
     display: inline-block;
+    padding: 0.5em 1em;
+    background-color: var(--accent-dark);
+    color: white;
+    border-radius: 5px;
     text-decoration: none;
   }
+
+  .all a:hover {
+    background-color: var(--accent);
+  }
+
   .all a.active {
     font-weight: bolder;
     text-decoration: underline;
