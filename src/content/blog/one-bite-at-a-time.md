@@ -14,9 +14,9 @@ The answer is found in Psalm 34:8: "Taste and see that the Lord is good; blessed
 Are you struggling to trust Him with your future? Start by trusting Him with today. Worried about provision? Start by believing for one small need. Overwhelmed by life’s uncertainties? Start by handing over one concern at a time. Go from thinking to experiencing. Overthinking keeps us in fear, but tasting leads to trust. Do not get trapped in the temptation to analyze His promises—trying to intellectually process everything before making a move. God’s invitation is not to figure Him out, but to experience Him. Taste and see, does not require you to analyze in order to conclude. Step out and trust, do not wait until you have all the answers.
 
 **<u>Bible Reading</u>**<br />
-Monday- Psalm 34<br />
-Tuesday- 1 Samuel 14: 1-14<br />
-Wednesday- 1 Samuel 14: 15-23<br />
-Thursday- 1 Samuel 14: 24-35<br />
-Friday- James 1:19-27<br />
-Saturday- 2 Corinthians 10
+Monday - Psalm 34<br />
+Tuesday - 1 Samuel 14: 1-14<br />
+Wednesday - 1 Samuel 14: 15-23<br />
+Thursday - 1 Samuel 14: 24-35<br />
+Friday - James 1:19-27<br />
+Saturday - 2 Corinthians 10
