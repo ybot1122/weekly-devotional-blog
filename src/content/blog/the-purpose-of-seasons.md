@@ -17,7 +17,7 @@ God’s intention was not just to maintain the world but to bring back humanity 
 
 How do we embrace the seasons of renewal in our spiritual journey?
 
-_Bible Readings:_<br />
+**Bible Readings:**<br />
 Monday: Genesis 6:1-8 <br />
 Tuesday: Isaiah 14:12-17<br />
 Wednesday: Ezekiel 28:12-19<br />
