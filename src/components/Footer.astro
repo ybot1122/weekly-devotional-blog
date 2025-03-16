@@ -1,9 +1,12 @@
 ---
+import MailingList from "./MailingList.astro";
+
 const today = new Date();
 ---
 
 <footer>
-  &copy; {today.getFullYear()} Your name here.
+  <div>&copy; {today.getFullYear()} Inya Nlenanya.</div>
+  <MailingList />
 </footer>
 <style>
   footer {

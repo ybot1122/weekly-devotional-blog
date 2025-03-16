@@ -1,0 +1,104 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+      }
+
+      main {
+        width: 100%;
+        max-width: 800px;
+        border-radius: 8px;
+        margin: 3em auto;
+        padding: 0;
+      }
+
+      p {
+        margin: 1em;
+      }
+
+      a {
+        color: #3498db;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      img {
+        display: block;
+        border-radius: 8px;
+      }
+
+      .bio img {
+        max-width: 150px;
+        height: auto;
+      }
+
+      .bio p {
+        margin-top: 0.5rem;
+      }
+
+      .bio {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      @media (min-width: 600px) {
+        .bio {
+          flex-direction: row;
+          margin-left: 1em;
+        }
+      }
+
+      .bio img {
+        margin-right: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <div class="bio">
+        <img src="/inya.jpeg" alt="Dr. Inya Nlenanya" />
+        <p>
+          <a
+            href="https://scholar.google.com/citations?user=iELQ86oAAAAJ&hl=en"
+            target="_blank">Dr. Inya Nlenanya</a
+          > is a lover of God in purest simplicity whom God has graced with an unusual
+          gift of revealing deep insights from plain scriptures. The Holy Spirit
+          shows him truths which appear to have been hidden in our plain sight, rekindling
+          our love for God and His ways in very profound ways.
+        </p>
+      </div>
+      <p>
+        This gift began to find expression as an undergraduate over two decades
+        ago while he was teaching and mentoring children and teenagers at the
+        Christ Church Chapel of the University of Nigeria Nsukka. Many of those
+        youngsters are now gospel ministers and leaders in different parts of
+        the globe. This gift has continued to find expression in different
+        churches and platforms since he moved to the United States.
+      </p>
+      <p>
+        He is married to his friend Ezinwanne, and they are blessed with three
+        lovely children.
+      </p>
+    </main>
+    <Footer />
+  </body>
+</html>
