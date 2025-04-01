@@ -2,7 +2,7 @@
 title: "The Kingdom of God is Within You"
 description: "These last few days have been quite humbling—out on the mission field on the edges of the Middle East, surrounded by such raw hunger and need. Something about that feels familiar in a very distant kind of way. Like something one used to know."
 pubDate: "Mar 30 2025"
-heroImage: "https://res.cloudinary.com/dryy6uo6k/image/upload/v1739210125/sunset-on-the-shore-debra-dickson_issdqn.jpg"
+heroImage: "/devotionals/the-kingdom-of-god-is-within-you.jpg"
 ---
 
 These last few days have been quite humbling—out on the mission field on the edges of the Middle East, surrounded by such raw hunger and need. Something about that feels familiar in a very distant kind of way. Like something one used to know. This experience has given me a new meaning to Luke 17:20–34. It is important to point out that Jesus' response is very carefully framed in the context of who asked the question. The Pharisees were asking Jesus about the kingdom of God. These were the merchants of knowledge—experts at data analysis, models, and theories. Jesus was responding to people who were accustomed to reading and writing dissertations.
@@ -41,9 +41,9 @@ This might feel abstract, but it’s meaningful: If there are two, add a third. 
 Finally, always remember, the kingdom of God is not somewhere “out there.” It is already within you, waiting to be put to a God-use. The Pharisees were seeking for Jesus to validate them; instead he challenged them to live by the Spirit.
 
 **Bible Readings:**<br />
-Monday- Matthew 11:1-19
-Tuesday- Genesis 19:10-26
-Wednesday- Romans 8:18-30
-Thursday- Revelations 3:14-22
-Friday- Proverbs 4: 1-13
+Monday- Matthew 11:1-19<br />
+Tuesday- Genesis 19:10-26<br />
+Wednesday- Romans 8:18-30<br />
+Thursday- Revelations 3:14-22<br />
+Friday- Proverbs 4: 1-13<br />
 Saturday- 1 Timothy 4
