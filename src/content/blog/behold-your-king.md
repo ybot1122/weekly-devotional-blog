@@ -2,7 +2,7 @@
 title: "Behold Your King"
 description: "As a child growing up in Nigeria, Palm Sunday felt like a holiday. We would march through town in a triumphant procession, our palm fronds waving in the air as we sang, “Hosanna in the Highest!” It was truly fun—joyful, vibrant, and full of energy. Palm Sunday ushers in Holy Week—the final days of Jesus’ earthly ministry as the Son of Man."
 pubDate: "Apr 14 2025"
-heroImage: "/devotionals/conquering-the-season.jpg"
+heroImage: "/devotionals/behold-your-king.jpg"
 ---
 
 As a child growing up in Nigeria, Palm Sunday felt like a holiday. We would march through town in a triumphant procession, our palm fronds waving in the air as we sang, “Hosanna in the Highest!” It was truly fun—joyful, vibrant, and full of energy. Palm Sunday ushers in Holy Week—the final days of Jesus’ earthly ministry as the Son of Man. It begins with celebration, but it doesn’t stay there. Jesus’ entry into Jerusalem as a humble King riding on a donkey gave the disciples a false sense of what was ahead. But Jesus was all business. He knew His time had come. Who would have thought that the celebration of Palm Sunday would give way to the sorrow of Good Friday? Looking back, the disciples would realize they had missed so much. The signs were there, but their expectations got in the way of their understanding. This week, we walk with Jesus—not just as spectators but as students, learning the lessons the disciples wish they had known.
