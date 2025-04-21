@@ -2,7 +2,7 @@
 title: "Resurrection for Dummies"
 description: "Resurrection is truly for dummies. It defies scientific explanation, logical analysis, and intellectual mastery. Jesus died, rose on the third day, and is alive."
 pubDate: "Apr 21 2025"
-heroImage: "/devotionals/behold-your-king.jpg"
+heroImage: "/devotionals/resurrection-for-dummies.jpg"
 ---
 
 Resurrection is truly for dummies. It defies scientific explanation, logical analysis, and intellectual mastery. Jesus died, rose on the third day, and is alive. It's as simple—and as profound—as that. Luke 24:13–35 presents a vivid picture of something many of us are familiar with yet rarely acknowledge openly: post-resurrection disappointment. It's that lingering confusion, emptiness, or disillusionment that can follow significant spiritual moments. We have the head knowledge of Good Friday and the celebration of Easter, yet often we still find ourselves walking the Emmaus road. The two disciples on that road knew all about the events that unfolded between Friday and Sunday in Jerusalem. They could recite the facts—but something critical was missing. They had the narrative but lacked the transformative testimony.
