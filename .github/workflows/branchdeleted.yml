@@ -1,0 +1,14 @@
+name: Branch Deleted Workflow
+
+on: delete
+
+jobs:
+  branch-deleted:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Branch Deletion
+        run: echo "A branch named ${{ github.event.ref }} was deleted."
+
+      - name: Perform Additional Actions
+        run: |
+          echo "You can add custom actions here, such as notifying a team or cleaning up resources."
