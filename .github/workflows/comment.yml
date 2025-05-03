@@ -4,7 +4,6 @@ on:
   pull_request:
     types:
       - opened
-      - reopened
 
 jobs:
   example_comment_pr:

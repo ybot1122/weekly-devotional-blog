@@ -1,10 +1,14 @@
-name: Branch Deleted
+name: Branch Deleted Workflow
+
 on: delete
+
 jobs:
-  delete:
-    if: github.event.ref_type == 'branch'
+  branch-deleted:
     runs-on: ubuntu-latest
     steps:
-      - name: Clean up
+      - name: Log Branch Deletion
+        run: echo "A branch named ${{ github.event.ref }} was deleted."
+
+      - name: Perform Additional Actions
         run: |
-          echo "Clean up for branch ${{ github.event.ref }}"
+          echo "You can add custom actions here, such as notifying a team or cleaning up resources."
