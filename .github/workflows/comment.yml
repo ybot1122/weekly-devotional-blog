@@ -22,7 +22,17 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const comment = "Thank you for opening this pull request! 🎉\n\nWe will review it soon.";
+            const branchName = context.payload.pull_request.head.ref;
+            const comment = `
+            Thank you for your contribution! 🎉
+
+            Here's a table for your reference:
+
+            | Env | URL |
+            |----------|----------|
+            | Staging    | ${branchName}.staging.com   |
+            | Smoke    | ${branchName}.prod.com   |
+            `;
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
