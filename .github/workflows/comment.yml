@@ -6,14 +6,15 @@ on:
       - opened
 
 jobs:
-  comment:
+  example_comment_pr:
     runs-on: ubuntu-latest
+    name: An example job to comment a PR
     steps:
-      - name: Add a comment to the pull request
-        uses: peter-evans/pull-request-comment@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          body: |
-            Thank you for opening this pull request! 🚀
+      - name: Checkout
+        uses: actions/checkout@v3
 
-            Our team will review it soon. If you have any additional details or context to share, feel free to add them here.
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: |
+            Hello world ! :wave:
