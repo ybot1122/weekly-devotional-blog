@@ -9,6 +9,8 @@ on:
 jobs:
   example_comment_pr:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     name: An example job to comment a PR
     steps:
       # Checkout the repository
