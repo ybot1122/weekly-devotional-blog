@@ -1,0 +1,19 @@
+name: Comment on Pull Request
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add a comment to the pull request
+        uses: peter-evans/pull-request-comment@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            Thank you for opening this pull request! 🚀
+
+            Our team will review it soon. If you have any additional details or context to share, feel free to add them here.
