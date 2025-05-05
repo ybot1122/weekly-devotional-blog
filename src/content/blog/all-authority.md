@@ -1,8 +1,8 @@
 ---
 title: "All Authority"
-description: "Last night was the Super Bowl—the American football equivalent of the FIFA World Cup. But it wasn’t just about the game. It was about something else, too: the staggering price of attention. A single 30-second ad cost a record-breaking $8 million. Let that sink in."
+description: "I know there are times when we are faced with situations that cause us to doubt God. We become preoccupied with the stone that’s blocking our access, or overwhelmed by the Anakites in our lives—the giants that make us feel unqualified or unworthy to step into the promise. Yes, the land may be flowing with milk and honey, but sometimes we believe we don’t belong there."
 pubDate: "May 5 2025"
-heroImage: "https://res.cloudinary.com/dryy6uo6k/image/upload/v1739210125/sunset-on-the-shore-debra-dickson_issdqn.jpg"
+heroImage: "/devotionals/all-authority.jpeg"
 ---
 
 I know there are times when we are faced with situations that cause us to doubt God. We become preoccupied with the stone that’s blocking our access, or overwhelmed by the Anakites in our lives—the giants that make us feel unqualified or unworthy to step into the promise. Yes, the land may be flowing with milk and honey, but sometimes we believe we don’t belong there. Maybe you're staring down a qualification exam, a performance review, a job search, or the uncertainty of the next chapter. Those feelings are real. But Jesus speaks into that moment with power and peace: “All authority in heaven and on earth has been given to me.” In that moment, He is not denying your fear—He is disarming it. He is not ignoring the stone—He is rolling it away. Yes, the mountain looks immovable, but He wants you to know: what feels like a dead end is not the end. You are correct—you can’t move it by yourself. But Jesus has made a way.
