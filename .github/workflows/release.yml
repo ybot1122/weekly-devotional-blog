@@ -1,0 +1,148 @@
+name: Create Draft Release on Release Branch
+
+on:
+  push:
+    branches:
+      - 'release/**'
+
+jobs:
+  create-draft-release:
+    if: startsWith(github.ref, 'refs/heads/release/')
+    runs-on: amd-standard
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Show branch and ref
+        run: |
+          echo "GITHUB_REF=$GITHUB_REF"
+          echo "GITHUB_SHA=$GITHUB_SHA"
+
+      - name: Extract version from branch
+        id: version
+        run: |
+          BRANCH_NAME="${GITHUB_REF#refs/heads/release/}"
+          VERSION=$(echo "$BRANCH_NAME" | grep -oE '[0-9]+(\.[0-9]+)*')
+          echo "BRANCH_NAME=$BRANCH_NAME"
+          echo "VERSION=$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+      - name: Create tag if not exists
+        id: tag
+        run: |
+          echo "Checking if tag ${{ steps.version.outputs.tag }} exists..."
+          if git rev-parse -q --verify "refs/tags/${{ steps.version.outputs.tag }}"; then
+            echo "Tag ${{ steps.version.outputs.tag }} already exists."
+          else
+            git tag ${{ steps.version.outputs.tag }}
+            git push origin ${{ steps.version.outputs.tag }}
+            echo "Tag ${{ steps.version.outputs.tag }} created and pushed."
+          fi
+
+      - name: Get latest minor/major release tag
+        id: last_release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            function parseMinorVersion(tag) {
+              const m = tag.match(/^v?(\d+)\.(\d+)/);
+              return m ? { major: parseInt(m[1], 10), minor: parseInt(m[2], 10) } : null;
+            }
+
+            const currentVersion = '${{ steps.version.outputs.version }}';
+            const currentMinor = parseMinorVersion(currentVersion);
+
+            console.log(`Current branch version: ${currentVersion}`);
+            console.log(`Parsed as:`, currentMinor);
+
+            const tags = await github.paginate(github.rest.repos.listTags, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100,
+            });
+
+            console.log(`Found tags:`, tags.map(t => t.name));
+
+            const validTags = tags
+              .map(t => t.name)
+              .map(tag => ({ tag, parsed: parseMinorVersion(tag) }))
+              .filter(({ parsed }) => parsed)
+              .filter(({ parsed }) =>
+                parsed.major < currentMinor.major ||
+                (parsed.major === currentMinor.major && parsed.minor < currentMinor.minor)
+              )
+              .sort((a, b) => {
+                if (a.parsed.major !== b.parsed.major)
+                  return b.parsed.major - a.parsed.major;
+                return b.parsed.minor - a.parsed.minor;
+              });
+
+            console.log('Valid tags (older minor/major):', validTags);
+
+            let lastTag = '';
+            if (validTags.length) {
+              lastTag = validTags[0].tag;
+            }
+            console.log(`Setting lastTag output: ${lastTag}`);
+            core.setOutput('tag', lastTag);
+
+      - name: Get commits since last release (commit messages and ticket keys)
+        id: commits
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const base = '${{ steps.last_release.outputs.tag }}';
+            const head = process.env.GITHUB_SHA;
+            console.log(`Comparing commits from ${base} to ${head}`);
+            if (!base) {
+              core.setOutput('commits', 'No previous minor/major release found.');
+              core.setOutput('ticket_list', '');
+              console.log('No previous minor/major release found.');
+              return;
+            }
+            const comparison = await github.rest.repos.compareCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              base,
+              head,
+            });
+            // Regex for ticket keys: any alphabetic (at least 1) + dash + digits (at least 1), e.g., "ABC-123"
+            const ticketRegex = /([A-Za-z]+-\d+)/g;
+            const allTicketsSet = new Set();
+            const commitLines = comparison.data.commits.map(commit => {
+              const msg = commit.commit.message.split('\n')[0];
+              const tickets = msg.match(ticketRegex);
+              if (tickets) {
+                tickets.forEach(t => allTicketsSet.add(t));
+              }
+              return `- ${msg} ([${commit.sha.substring(0,7)}](${commit.html_url}))`;
+            });
+            const allTickets = Array.from(allTicketsSet).sort();
+            const ticketList = allTickets.length
+              ? allTickets.map(t => `- ${t}`).join('\n')
+              : '';
+            console.log('Commits for release notes:\n' + commitLines.join('\n'));
+            console.log('Tickets Detected in this Release:\n' + ticketList);
+            core.setOutput('commits', commitLines.join('\n'));
+            core.setOutput('ticket_list', ticketList);
+
+      - name: Create Draft Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          release_name: Release ${{ steps.version.outputs.tag }}
+          draft: true
+          body: |
+            ## Commits since last minor/major release (${{ steps.last_release.outputs.tag }}):
+            ${{ steps.commits.outputs.commits }}
+
+            ## Tickets detected in release:
+            ${{ steps.commits.outputs.ticket_list }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
