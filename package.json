@@ -14,8 +14,10 @@
     "@astrojs/rss": "^4.0.11",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/vercel": "^8.0.6",
+    "@auth/core": "^0.37.4",
     "@ybot1122/toby-ui": "^0.0.21-alpha",
     "astro": "^5.1.10",
+    "auth-astro": "^4.2.0",
     "openai": "^5.3.0"
   }
 }

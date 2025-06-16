@@ -39,6 +39,7 @@ const posts = (await getCollection("blog"))
                 <button class="gen-image-btn" data-postid={post.id}>
                   Generate Image
                 </button>
+                <p id={`${post.id}-img`} />
               </td>
             </tr>
           ))
@@ -86,11 +87,30 @@ const posts = (await getCollection("blog"))
   const btns = document.getElementsByClassName("gen-image-btn");
   Array.prototype.forEach.call(btns, function (el) {
     const post_id = el.dataset.postid;
-    el.addEventListener("click", function (event: Event) {
+    el.addEventListener("click", async function (event: Event) {
       event.stopPropagation();
       event.preventDefault();
-      console.log(post_id);
-      actions.generate_image.generateImage({ post_id });
+
+      el.innerHTML = "loading...";
+      el.disabled = true;
+      const base64 = await actions.generate_image.generateImage({ post_id });
+      console.log(base64);
+
+      const container = document.getElementById(`${post_id}-img`);
+
+      if (container) {
+        container.innerHTML = "";
+        if (base64.data) {
+          const img = document.createElement("img");
+          img.src = `data:image/*;base64,${base64.data}`;
+          container.appendChild(img);
+        } else {
+          container.innerHTML = "Something went wrong. Sorry!";
+        }
+      }
+
+      el.innerHTML = "Generate Image";
+      el.disabled = false;
     });
   });
 </script>
