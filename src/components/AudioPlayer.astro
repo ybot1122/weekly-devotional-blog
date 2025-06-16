@@ -1,0 +1,72 @@
+---
+// SimpleAudioPlayer.astro
+const src = Astro.props.src ?? "/audio/sample.mp3";
+const label = Astro.props.label ?? "Audio player";
+---
+
+<style>
+  .audio-player {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #f4f4f4;
+    padding: 0.75rem 1.25rem;
+    border-radius: 6px;
+  }
+  button {
+    background: #fff;
+    border: 1px solid #bbb;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background 0.2s,
+      border 0.2s;
+  }
+  button:active {
+    background: #eee;
+    border-color: #888;
+  }
+</style>
+
+<div class="audio-player">
+  <button id="audio-play-pause" aria-label="Play" type="button">▶️</button>
+  <audio id="audio-element" src={src}></audio>
+  <span>{label}</span>
+</div>
+<script type="module" is:inline>
+  const btn = document.getElementById("audio-play-pause");
+  const audio = document.getElementById("audio-element");
+  let playing = false;
+
+  btn.addEventListener("click", () => {
+    if (playing) {
+      audio.pause();
+    } else {
+      audio.play();
+    }
+  });
+
+  audio.addEventListener("play", () => {
+    playing = true;
+    btn.textContent = "⏸️";
+    btn.setAttribute("aria-label", "Pause");
+  });
+
+  audio.addEventListener("pause", () => {
+    playing = false;
+    btn.textContent = "▶️";
+    btn.setAttribute("aria-label", "Play");
+  });
+
+  audio.addEventListener("ended", () => {
+    playing = false;
+    btn.textContent = "▶️";
+    btn.setAttribute("aria-label", "Play");
+  });
+</script>
