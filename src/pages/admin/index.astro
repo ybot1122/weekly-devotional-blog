@@ -4,7 +4,7 @@ import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 import { getCollection } from "astro:content";
-import FormattedDate from "../../components/FormattedDate.astro";
+import { actions } from "astro:actions";
 
 const t = import.meta.env.TEST_SECRET;
 
@@ -36,7 +36,9 @@ const posts = (await getCollection("blog"))
             <tr>
               <td>{post.data.title}</td>
               <td>
-                <button>Generate Image</button>
+                <button class="gen-image-btn" data-postid={post.id}>
+                  Generate Image
+                </button>
               </td>
             </tr>
           ))
@@ -57,6 +59,8 @@ const posts = (await getCollection("blog"))
 </html>
 <!-- Initialize Quill editor -->
 <script>
+  import { actions } from "astro:actions";
+
   document.addEventListener("DOMContentLoaded", function (event) {
     // @ts-expect-error Quill is not defined
     const quill = new Quill("#editor", {
@@ -77,5 +81,16 @@ const posts = (await getCollection("blog"))
         console.log(quill.getSemanticHTML());
         console.log(quill.getContents());
       });
+  });
+
+  const btns = document.getElementsByClassName("gen-image-btn");
+  Array.prototype.forEach.call(btns, function (el) {
+    const post_id = el.dataset.postid;
+    el.addEventListener("click", function (event: Event) {
+      event.stopPropagation();
+      event.preventDefault();
+      console.log(post_id);
+      actions.generate_image.generateImage({ post_id });
+    });
   });
 </script>
