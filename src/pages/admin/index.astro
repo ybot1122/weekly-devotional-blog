@@ -5,6 +5,11 @@ import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 import { getCollection } from "astro:content";
 import { actions } from "astro:actions";
+import { getSession } from "auth-astro/server";
+
+const session = await getSession(Astro.request);
+
+console.log(session);
 
 const t = import.meta.env.TEST_SECRET;
 
@@ -26,8 +31,17 @@ const posts = (await getCollection("blog"))
   </head>
   <body>
     <Header />
-    <main>
-      <h1>Admin Panel</h1>
+    {
+      !session && (
+        <main>
+          {" "}
+          <button id="login">Login</button>
+          <button id="logout">Logout</button>
+        </main>
+      )
+    }
+    {session && <main>
+      {session}<h1>Admin Panel</h1>
 
       <table>
         <tr><th>Title</th><th>Generate Image</th></tr>
@@ -54,13 +68,18 @@ const posts = (await getCollection("blog"))
       </div>
 
       <button id="submit" type="button">Get Contents {t}</button>
-    </main>
+    </main>}
     <Footer />
   </body>
 </html>
 <!-- Initialize Quill editor -->
 <script>
   import { actions } from "astro:actions";
+
+  const { signIn, signOut } = await import("auth-astro/client");
+  (document.querySelector("#login")! as HTMLElement).onclick = () =>
+    signIn("google");
+  (document.querySelector("#logout")! as HTMLElement).onclick = () => signOut();
 
   document.addEventListener("DOMContentLoaded", function (event) {
     // @ts-expect-error Quill is not defined
