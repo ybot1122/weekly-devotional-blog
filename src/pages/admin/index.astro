@@ -4,12 +4,10 @@ import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 import { getCollection } from "astro:content";
-import { actions } from "astro:actions";
 import { getSession } from "auth-astro/server";
+export const prerender = false;
 
 const session = await getSession(Astro.request);
-
-console.log(session);
 
 const t = import.meta.env.TEST_SECRET;
 
@@ -34,14 +32,13 @@ const posts = (await getCollection("blog"))
     {
       !session && (
         <main>
-          {" "}
           <button id="login">Login</button>
-          <button id="logout">Logout</button>
         </main>
       )
     }
-    {session && <main>
-      {session}<h1>Admin Panel</h1>
+    {session && session.user?.email === "liutoby92@gmail.com" &&  <main>          <button id="logout">logout</button>
+<h1>Admin Panel</h1>
+
 
       <table>
         <tr><th>Title</th><th>Generate Image</th></tr>
@@ -77,9 +74,16 @@ const posts = (await getCollection("blog"))
   import { actions } from "astro:actions";
 
   const { signIn, signOut } = await import("auth-astro/client");
-  (document.querySelector("#login")! as HTMLElement).onclick = () =>
-    signIn("google");
-  (document.querySelector("#logout")! as HTMLElement).onclick = () => signOut();
+  const login:HTMLElement | null = document.querySelector("#login");
+  if (login ) {
+    login.onclick = () => signIn("google");
+  }
+
+    const logout:HTMLElement | null = document.querySelector("#logout");
+  if (logout ) {
+    logout.onclick = () => signOut();
+  }
+
 
   document.addEventListener("DOMContentLoaded", function (event) {
     // @ts-expect-error Quill is not defined
