@@ -1,15 +1,9 @@
-Color scheme: #00A5E0
-Font: Funnel-Sans
+### Weekly Devotionals by Dr. Inya Nlenanya
 
-Home page: Feature latest
-Devotionals page: Grid view with links to each month
-I will find images for each devotional
+Feature weekly devotional posts for spiritual guidance and maturity.
 
-- Subscribe: simply email to author, and then author can add user to emailing list
+### Overview
 
------
-
-- Prototype example of share /
-- Prototype example of Able to comment with an approval process /
-
-
+- Markdown based structure for the actual devotional posts
+- Integration with OpenAI provides in the admin panel generates images for each post based on the description
+- Integration with OpenAI provides text-to-speech for each post
