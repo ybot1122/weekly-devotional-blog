@@ -34,13 +34,7 @@ export const tts = {
       ]),
       tone: z.enum(["serious", "upbeat", "curious", "dire", "casual"]),
     }),
-    handler: async (input, ctx) => {
-      const session = await getSession(ctx.request);
-
-      if (session?.user?.email !== "liutoby92@gmail.com") {
-        return "error";
-      }
-
+    handler: async (input) => {
       const post = (await getCollection("blog")).filter(
         (a) => a.id === input.post_id
       )[0];
