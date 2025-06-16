@@ -8,4 +8,5 @@ Feature weekly devotional posts for spiritual guidance and maturity.
 ![Screenshot 2025-06-16 155129](https://github.com/user-attachments/assets/130e19e5-75ee-4f93-832d-42870f740d6d)
 
 ## Text to Speech with customizable tone/voice Using OpenAI
+WIP: https://github.com/ybot1122/weekly-devotional-blog/pull/39
 ![Screenshot 2025-06-16 155626](https://github.com/user-attachments/assets/5b0bdb5a-9c38-45b1-9913-267c17e80055)
