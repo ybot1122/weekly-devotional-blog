@@ -7,10 +7,32 @@ import { z } from "astro:schema";
 import { getCollection } from "astro:content";
 import { getSession } from "auth-astro/server";
 
+const toneInstructions = {
+  serious: "Speak in a serious tone, but not overly strict or stern.",
+  upbeat: "Speak in a cheerful and positive tone.",
+  curious: "Speak in a wondrous and awe-struck tone.",
+  dire: "Speak in a grave and dire tone. Very serious.",
+  casual: "Speak as if we were chit chatting in the front lawn.",
+};
+
 export const tts = {
   tts: defineAction({
     input: z.object({
       post_id: z.string(),
+      voice: z.enum([
+        "alloy",
+        "ash",
+        "ballad",
+        "coral",
+        "echo",
+        "fable",
+        "onyx",
+        "nova",
+        "sage",
+        "shimmer",
+        "verse",
+      ]),
+      tone: z.enum(["serious", "upbeat", "curious", "dire", "casual"]),
     }),
     handler: async (input, ctx) => {
       const session = await getSession(ctx.request);
@@ -26,9 +48,9 @@ export const tts = {
       try {
         const mp3 = await openai.audio.speech.create({
           model: "gpt-4o-mini-tts",
-          voice: "coral",
+          voice: input.voice,
           input: post.data.description,
-          instructions: "Speak in a cheerful and positive tone.",
+          instructions: toneInstructions[input.tone],
           response_format: "wav",
         });
 

@@ -1,7 +1,6 @@
 ---
 // SimpleAudioPlayer.astro
-const src = Astro.props.src ?? "/audio/sample.mp3";
-const label = Astro.props.label ?? "OpenAI Text-to-Speech";
+const label = "OpenAI Text-to-Speech";
 const post_id = Astro.props.post_id;
 ---
 
@@ -43,7 +42,28 @@ const post_id = Astro.props.post_id;
     data-postid={post_id}>▶️</button
   >
   <audio id="audio-element"></audio>
-  <span>{label}</span>
+  <span id="label">{label}</span>
+  <select id="voice">
+    <option value="alloy">Alloy</option>
+    <option value="ash">Ash</option>
+    <option value="ballad">Ballad</option>
+    <option value="coral" selected>Coral</option>
+    <option value="echo">Echo</option>
+    <option value="fable">Fable</option>
+    <option value="onyx">Onyx</option>
+    <option value="nova">Nova</option>
+    <option value="sage">Sage</option>
+    <option value="shimmer">Shimmer</option>
+    <option value="verse">Verse</option>
+  </select>
+
+  <select id="tone">
+    <option value="serious">Serious, solemn</option>
+    <option value="upbeat">Upbeat, joyful</option>
+    <option value="curious">Inquistive, curious</option>
+    <option value="dire">Dire, grave</option>
+    <option value="casual" selected>Lighthearted, casual</option>
+  </select>
 </div>
 <script>
   import { actions } from "astro:actions";
@@ -51,16 +71,33 @@ const post_id = Astro.props.post_id;
   const audio: HTMLAudioElement | null = document.getElementById(
     "audio-element"
   ) as HTMLAudioElement;
+  const voiceEl: HTMLSelectElement | null = document.getElementById(
+    "voice"
+  ) as HTMLSelectElement;
+  const toneEl: HTMLSelectElement | null = document.getElementById(
+    "tone"
+  ) as HTMLSelectElement;
 
-  if (btn && audio && btn.dataset.postid) {
+  if (btn && audio && btn.dataset.postid && voiceEl) {
     let playing = false;
+
+    voiceEl.addEventListener("change", () => audio.removeAttribute("src"));
+    toneEl.addEventListener("change", () => audio.removeAttribute("src"));
 
     btn.addEventListener("click", async () => {
       console.log("hi");
 
       if (!audio.src) {
+        const voice: any = voiceEl.value;
+        const tone: any = toneEl.value;
+        console.log(voice, tone);
+
+        document.getElementById("label")!.innerText = "loading...";
+
         const playback = await actions.tts.tts({
           post_id: btn.dataset.postid!,
+          voice,
+          tone,
         });
         console.log(playback);
 
@@ -70,6 +107,8 @@ const post_id = Astro.props.post_id;
           audioSrc = `data:audio/wav;base64,${playback.data}`;
           audio.src = audioSrc;
         }
+
+        document.getElementById("label")!.innerText = "OpenAI Text-to-Speech";
       }
 
       if (playing) {
