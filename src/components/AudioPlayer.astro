@@ -2,6 +2,7 @@
 // SimpleAudioPlayer.astro
 const src = Astro.props.src ?? "/audio/sample.mp3";
 const label = Astro.props.label ?? "Audio player";
+const post_id = Astro.props.post_id;
 ---
 
 <style>
@@ -35,38 +36,65 @@ const label = Astro.props.label ?? "Audio player";
 </style>
 
 <div class="audio-player">
-  <button id="audio-play-pause" aria-label="Play" type="button">▶️</button>
-  <audio id="audio-element" src={src}></audio>
+  <button
+    id="audio-play-pause"
+    aria-label="Play"
+    type="button"
+    data-postid={post_id}>▶️</button
+  >
+  <audio id="audio-element"></audio>
   <span>{label}</span>
 </div>
-<script type="module" is:inline>
+<script>
+  import { actions } from "astro:actions";
   const btn = document.getElementById("audio-play-pause");
-  const audio = document.getElementById("audio-element");
-  let playing = false;
+  const audio: HTMLAudioElement | null = document.getElementById(
+    "audio-element"
+  ) as HTMLAudioElement;
 
-  btn.addEventListener("click", () => {
-    if (playing) {
-      audio.pause();
-    } else {
-      audio.play();
-    }
-  });
+  if (btn && audio && btn.dataset.postid) {
+    let playing = false;
 
-  audio.addEventListener("play", () => {
-    playing = true;
-    btn.textContent = "⏸️";
-    btn.setAttribute("aria-label", "Pause");
-  });
+    btn.addEventListener("click", async () => {
+      console.log("hi");
 
-  audio.addEventListener("pause", () => {
-    playing = false;
-    btn.textContent = "▶️";
-    btn.setAttribute("aria-label", "Play");
-  });
+      if (!audio.src) {
+        const playback = await actions.tts.tts({
+          post_id: btn.dataset.postid!,
+        });
+        console.log(playback);
 
-  audio.addEventListener("ended", () => {
-    playing = false;
-    btn.textContent = "▶️";
-    btn.setAttribute("aria-label", "Play");
-  });
+        // Convert the buffer to a base64 data URI (audio/wav by default)
+        let audioSrc = "";
+        if (playback.data) {
+          audioSrc = `data:audio/wav;base64,${playback.data}`;
+          audio.src = audioSrc;
+        }
+      }
+
+      if (playing) {
+        audio.pause();
+      } else {
+        audio.play();
+      }
+    });
+
+    audio.addEventListener("play", () => {
+      playing = true;
+      btn.textContent = "⏸️";
+      btn.setAttribute("aria-label", "Pause");
+    });
+
+    audio.addEventListener("pause", () => {
+      playing = false;
+      btn.textContent = "▶️";
+      btn.setAttribute("aria-label", "Play");
+    });
+
+    audio.addEventListener("ended", () => {
+      playing = false;
+      btn.textContent = "▶️";
+      btn.setAttribute("aria-label", "Play");
+    });
+  }
 </script>

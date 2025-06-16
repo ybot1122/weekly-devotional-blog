@@ -7,9 +7,10 @@ import FormattedDate from "../components/FormattedDate.astro";
 import HeroImage from "../components/HeroImage.astro";
 import AudioPlayer from "../components/AudioPlayer.astro";
 
-type Props = CollectionEntry<"blog">["data"];
+type Props = CollectionEntry<"blog">["data"] & { post_id: string };
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, post_id } =
+  Astro.props;
 ---
 
 <html lang="en">
@@ -48,7 +49,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
   <body>
     <Header />
     <main>
-      <AudioPlayer />
+      <AudioPlayer post_id={post_id} />
       <article>
         {heroImage && <HeroImage imageSrc={heroImage} alt="" />}
         <div class="prose">
