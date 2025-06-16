@@ -3,8 +3,14 @@ import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import { getCollection } from "astro:content";
+import FormattedDate from "../../components/FormattedDate.astro";
 
 const t = import.meta.env.TEST_SECRET;
+
+const posts = (await getCollection("blog"))
+  .filter((a) => a.id !== "using-mdx")
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <!doctype html>
@@ -22,6 +28,21 @@ const t = import.meta.env.TEST_SECRET;
     <Header />
     <main>
       <h1>Admin Panel</h1>
+
+      <table>
+        <tr><th>Title</th><th>Generate Image</th></tr>
+        {
+          posts.map((post) => (
+            <tr>
+              <td>{post.data.title}</td>
+              <td>
+                <button>Generate Image</button>
+              </td>
+            </tr>
+          ))
+        }
+      </table>
+
       <!-- Create the editor container -->
       <div id="editor">
         <p>Hello World!</p>

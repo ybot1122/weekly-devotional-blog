@@ -15,6 +15,7 @@
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/vercel": "^8.0.6",
     "@ybot1122/toby-ui": "^0.0.21-alpha",
-    "astro": "^5.1.10"
+    "astro": "^5.1.10",
+    "openai": "^5.3.0"
   }
 }
