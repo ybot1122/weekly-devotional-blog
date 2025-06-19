@@ -43,7 +43,9 @@ const post_id = Astro.props.post_id;
     type="button"
     data-postid={post_id}>▶️</button
   >
-  <audio id="audio-element"></audio>
+  <audio id="p1"></audio>
+  <audio id="p2"></audio>
+  <audio id="p3"></audio>
   <span id="label">{label}</span>
   <select id="voice">
     <option value="alloy">Alloy</option>
@@ -70,8 +72,14 @@ const post_id = Astro.props.post_id;
 <script>
   import { actions } from "astro:actions";
   const btn = document.getElementById("audio-play-pause");
-  const audio: HTMLAudioElement | null = document.getElementById(
-    "audio-element"
+  const p1: HTMLAudioElement | null = document.getElementById(
+    "p1"
+  ) as HTMLAudioElement;
+  const p2: HTMLAudioElement | null = document.getElementById(
+    "p2"
+  ) as HTMLAudioElement;
+  const p3: HTMLAudioElement | null = document.getElementById(
+    "p3"
   ) as HTMLAudioElement;
   const voiceEl: HTMLSelectElement | null = document.getElementById(
     "voice"
@@ -80,23 +88,82 @@ const post_id = Astro.props.post_id;
     "tone"
   ) as HTMLSelectElement;
 
-  if (btn && audio && btn.dataset.postid && voiceEl) {
-    let playing = false;
+  const ps = [p1, p2, p3];
 
-    voiceEl.addEventListener("change", () => audio.removeAttribute("src"));
-    toneEl.addEventListener("change", () => audio.removeAttribute("src"));
+  if (btn && p1 && p2 && p3 && btn.dataset.postid && voiceEl) {
+    let playing = false;
+    let currentPart = 0;
+
+    voiceEl.addEventListener("change", () => p1.removeAttribute("src"));
+    toneEl.addEventListener("change", () => p1.removeAttribute("src"));
+    ps.forEach((p, ind) => {
+      p.addEventListener("ended", () => {
+        console.log(`p${ind + 1} ended`);
+        p.removeAttribute("src");
+
+        const next = ps[ind + 1];
+        if (next) {
+          next.play();
+          currentPart = ind + 1;
+        } else {
+          btn.textContent = "▶️";
+          playing = false;
+          currentPart = 0;
+          btn.setAttribute("aria-label", "Play");
+        }
+      });
+
+      p.addEventListener("play", () => {
+        playing = true;
+        btn.textContent = "⏸️";
+        btn.setAttribute("aria-label", "Pause");
+      });
+
+      p.addEventListener("pause", () => {
+        playing = false;
+        btn.textContent = "▶️";
+        btn.setAttribute("aria-label", "Play");
+      });
+    });
 
     btn.addEventListener("click", async () => {
-      console.log("hi");
-
-      if (!audio.src) {
+      if (currentPart === 0 && !p1.src) {
         const voice: any = voiceEl.value;
         const tone: any = toneEl.value;
         console.log(voice, tone);
 
         document.getElementById("label")!.innerText = "loading...";
 
+        actions.tts
+          .tts({
+            part: 1,
+            post_id: btn.dataset.postid!,
+            voice,
+            tone,
+          })
+          .then((res) => {
+            console.log(res);
+            if (res.data) {
+              p2.src = `data:audio/wav;base64,${res.data}`;
+            }
+          });
+
+        actions.tts
+          .tts({
+            part: 2,
+            post_id: btn.dataset.postid!,
+            voice,
+            tone,
+          })
+          .then((res) => {
+            console.log(res);
+            if (res.data) {
+              p3.src = `data:audio/wav;base64,${res.data}`;
+            }
+          });
+
         const playback = await actions.tts.tts({
+          part: 0,
           post_id: btn.dataset.postid!,
           voice,
           tone,
@@ -107,35 +174,17 @@ const post_id = Astro.props.post_id;
         let audioSrc = "";
         if (playback.data) {
           audioSrc = `data:audio/wav;base64,${playback.data}`;
-          audio.src = audioSrc;
+          p1.src = audioSrc;
         }
 
         document.getElementById("label")!.innerText = "OpenAI Text-to-Speech";
       }
 
       if (playing) {
-        audio.pause();
+        ps[currentPart].pause();
       } else {
-        audio.play();
+        ps[currentPart].play();
       }
-    });
-
-    audio.addEventListener("play", () => {
-      playing = true;
-      btn.textContent = "⏸️";
-      btn.setAttribute("aria-label", "Pause");
-    });
-
-    audio.addEventListener("pause", () => {
-      playing = false;
-      btn.textContent = "▶️";
-      btn.setAttribute("aria-label", "Play");
-    });
-
-    audio.addEventListener("ended", () => {
-      playing = false;
-      btn.textContent = "▶️";
-      btn.setAttribute("aria-label", "Play");
     });
   }
 </script>

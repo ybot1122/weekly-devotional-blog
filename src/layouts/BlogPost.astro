@@ -67,7 +67,9 @@ const { title, description, pubDate, updatedDate, heroImage, post_id } =
             <AudioPlayer post_id={post_id} />
             <hr />
           </div>
-          <slot />
+          <div id="post">
+            <slot />
+          </div>
         </div>
       </article>
     </main>
