@@ -94,8 +94,18 @@ const post_id = Astro.props.post_id;
     let playing = false;
     let currentPart = 0;
 
-    voiceEl.addEventListener("change", () => p1.removeAttribute("src"));
-    toneEl.addEventListener("change", () => p1.removeAttribute("src"));
+    voiceEl.addEventListener("change", () => {
+      ps[currentPart].pause();
+      playing = false;
+      ps.forEach((p) => p.removeAttribute("src"));
+      currentPart = 0;
+    });
+    toneEl.addEventListener("change", () => {
+      ps[currentPart].pause();
+      playing = false;
+      ps.forEach((p) => p.removeAttribute("src"));
+      currentPart = 0;
+    });
     ps.forEach((p, ind) => {
       p.addEventListener("ended", () => {
         console.log(`p${ind + 1} ended`);
@@ -131,6 +141,10 @@ const post_id = Astro.props.post_id;
         const voice: any = voiceEl.value;
         const tone: any = toneEl.value;
         console.log(voice, tone);
+
+        if (document.getElementById("label")!.innerText === "loading...") {
+          return;
+        }
 
         document.getElementById("label")!.innerText = "loading...";
 
