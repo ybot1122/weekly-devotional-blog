@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import { follow_ups } from "../actions/generate_image";
 
 const posts = (await getCollection("blog"))
   .filter((a) => a.id !== "using-mdx")
@@ -16,14 +17,45 @@ const posts = (await getCollection("blog"))
   <button id="generate-btn" type="submit" class="generate-image-btn">
     Generate Image For this Post
   </button>
+  <div id="follow-ups" class="hidden">
+    {
+      follow_ups.map((item, ind) => (
+        <button class="generate-image-btn" id={`follow-up-${ind}`}>
+          {item}
+        </button>
+      ))
+    }
+  </div>
+  <div
+    id="generated-image"
+    class="mt-6 p-4 bg-gray-50 rounded-lg shadow border border-gray-100 flex flex-col items-center hidden"
+  >
+    <img
+      id="image-preview"
+      src=""
+      alt="Generated for article"
+      class="max-w-full rounded-md border border-gray-200 shadow"
+    />
+  </div>
 </form>
 
 <style>
+  #follow-ups {
+    display: flex;
+    width: 100%;
+    justify-content: stretch;
+    & > * {
+      flex: 1 1 0;
+    }
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.5rem;
+  }
+
   .generate-image-form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    max-width: 28rem;
     padding: 1.5rem;
     background: #fff;
     border-radius: 0.5rem;
@@ -61,25 +93,18 @@ const posts = (await getCollection("blog"))
   .generate-image-btn:hover {
     background: #1d4ed8;
   }
-</style>
 
-<div
-  id="generated-image"
-  class="mt-6 p-4 bg-gray-50 rounded-lg shadow border border-gray-100 flex flex-col items-center"
-  style="display: none;"
->
-  <p class="mb-2 text-gray-600 font-medium">Generated Image:</p>
-  <img
-    id="image-preview"
-    src=""
-    alt="Generated for article"
-    class="max-w-full rounded-md border border-gray-200 shadow"
-  />
-</div>
+  .hidden {
+    display: none !important;
+  }
+</style>
 
 <script>
   import { actions } from "astro:actions";
 
+  let prev_response_id = "";
+
+  const followUps = document.getElementById("follow-ups")!;
   const form = document.getElementById("generate-image-form")!;
   const select = document.getElementById(
     "article-select"
@@ -88,23 +113,46 @@ const posts = (await getCollection("blog"))
   const imageDiv = document.getElementById("generated-image")!;
   const img = document.getElementById("image-preview")! as HTMLImageElement;
 
+  select.addEventListener("change", () => {
+    imageDiv.classList.add("hidden");
+    followUps.classList.add("hidden");
+    btn.classList.remove("hidden");
+    prev_response_id = "";
+    btn.textContent = "Generate Image";
+  });
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     btn.disabled = true;
     btn.textContent = "Generating...";
-    imageDiv.style.display = "none";
+    imageDiv.classList.add("hidden");
 
     const post_id = select.value;
 
-    const base64 = await actions.generate_image.generateImage({ post_id });
+    //const res = await actions.generate_image.generateImage({ post_id });
 
-    if (base64.data) {
-      img.src = `data:image/*;base64,${base64.data}`;
+    const res: any = await new Promise((resolve) =>
+      setTimeout(() => {
+        resolve({
+          data: {
+            imageBase64:
+              "iVBORw0KGgoAAAANSUhEUgAAAAUA\nAAAAFCAIAAAAC4f3EAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAABGdBTUEAANbY1\n\n",
+            reponse_id: "12345",
+          },
+        });
+      }, 2000)
+    );
+
+    if (res.data) {
+      img.src = `data:image/*;base64,${res.data.imageBase64}`;
+      prev_response_id = res.data.reponse_id;
       btn.textContent = "Generate Image";
+      followUps.classList.remove("hidden");
+      btn.classList.add("hidden");
     } else {
       btn.textContent = "Something went wrong. Sorry!";
     }
-    imageDiv.style.display = "block";
+    imageDiv.classList.remove("hidden");
 
     btn.disabled = false;
   });
