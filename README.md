@@ -5,7 +5,10 @@ Feature weekly devotional posts for spiritual guidance and maturity.
 - Integration with auth-astro for Google OAuth
 
 ## Generate Image for Post Using OpenAI
-![Screenshot 2025-06-16 155129](https://github.com/user-attachments/assets/130e19e5-75ee-4f93-832d-42870f740d6d)
+|     |  |
+| -------- | ------- |
+|![Screenshot 2025-06-23 144009](https://github.com/user-attachments/assets/94564c2e-64b3-45e6-b9e4-c51acae939aa)|![Screenshot 2025-06-23 144036](https://github.com/user-attachments/assets/a13d7369-bc84-4895-880c-1e66da17c777)
+
 
 ## Text to Speech with customizable tone/voice Using OpenAI
 WIP: https://github.com/ybot1122/weekly-devotional-blog/pull/39
