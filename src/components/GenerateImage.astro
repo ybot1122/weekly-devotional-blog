@@ -17,27 +17,34 @@ const posts = (await getCollection("blog"))
   <button id="generate-btn" type="submit" class="generate-image-btn">
     Generate Image For this Post
   </button>
-  <div id="follow-ups" class="hidden">
-    {
-      follow_ups.map((item, ind) => (
-        <button class="generate-image-btn" id={`follow-up-${ind}`}>
-          {item}
-        </button>
-      ))
-    }
-  </div>
-  <div
-    id="generated-image"
-    class="mt-6 p-4 bg-gray-50 rounded-lg shadow border border-gray-100 flex flex-col items-center hidden"
-  >
-    <img
-      id="image-preview"
-      src=""
-      alt="Generated for article"
-      class="max-w-full rounded-md border border-gray-200 shadow"
-    />
-  </div>
 </form>
+<div id="follow-ups" class="hidden">
+  {
+    follow_ups.map((item, ind) => (
+      <button
+        class="generate-image-btn"
+        id={`follow-up-${ind}`}
+        data-followup={ind}
+      >
+        {item}
+      </button>
+    ))
+  }
+</div>
+<div
+  id="generated-image"
+  class="mt-6 p-4 bg-gray-50 rounded-lg shadow border border-gray-100 flex flex-col items-center hidden"
+>
+  <img
+    id="image-preview"
+    src=""
+    alt="Generated for article"
+    class="max-w-full rounded-md border border-gray-200 shadow"
+  />
+</div>
+<div id="loading" class="hidden">
+  <p>Loading...</p>
+</div>
 
 <style>
   #follow-ups {
@@ -112,6 +119,42 @@ const posts = (await getCollection("blog"))
   const btn = document.getElementById("generate-btn")! as HTMLButtonElement;
   const imageDiv = document.getElementById("generated-image")!;
   const img = document.getElementById("image-preview")! as HTMLImageElement;
+  const loading = document.getElementById("loading")!;
+
+  let i = 0;
+  let dom = document.getElementById(`follow-up-${i}`);
+  while (dom) {
+    dom.addEventListener("click", async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const follow_up_id = parseInt(
+        (e.currentTarget as HTMLElement).dataset.followup || ""
+      );
+      if (prev_response_id) {
+        imageDiv.classList.add("hidden");
+        followUps.classList.add("hidden");
+        loading.classList.remove("hidden");
+        const res = await actions.generate_image.generateImage({
+          previous_response_id: prev_response_id,
+          follow_up_id,
+        });
+
+        if (res.data) {
+          img.src = `data:image/*;base64,${res.data.imageBase64}`;
+          prev_response_id = res.data.reponse_id;
+          followUps.classList.remove("hidden");
+          imageDiv.classList.remove("hidden");
+        } else {
+          console.error("Something went wrong. Sorry!");
+        }
+
+        loading.classList.add("hidden");
+        console.log(`Follow-up: for response ID: ${prev_response_id}`);
+      }
+    });
+    i++;
+    dom = document.getElementById(`follow-up-${i}`);
+  }
 
   select.addEventListener("change", () => {
     imageDiv.classList.add("hidden");
@@ -129,19 +172,7 @@ const posts = (await getCollection("blog"))
 
     const post_id = select.value;
 
-    //const res = await actions.generate_image.generateImage({ post_id });
-
-    const res: any = await new Promise((resolve) =>
-      setTimeout(() => {
-        resolve({
-          data: {
-            imageBase64:
-              "iVBORw0KGgoAAAANSUhEUgAAAAUA\nAAAAFCAIAAAAC4f3EAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAABGdBTUEAANbY1\n\n",
-            reponse_id: "12345",
-          },
-        });
-      }, 2000)
-    );
+    const res = await actions.generate_image.generateImage({ post_id });
 
     if (res.data) {
       img.src = `data:image/*;base64,${res.data.imageBase64}`;

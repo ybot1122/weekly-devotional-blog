@@ -39,10 +39,12 @@ export const generate_image = {
         const post = (await getCollection("blog")).filter(
           (a) => a.id === input.post_id
         )[0];
-        prompt = `Genreate an image for this blog post: ${post.data.description}`;
+        prompt = `Generate an image for this blog post: ${post.data.description}`;
       } else {
         prompt = `Now make it ${follow_ups[input.follow_up_id!]}`;
       }
+
+      console.log(prompt, input);
 
       try {
         const response = await openai.responses.create({
