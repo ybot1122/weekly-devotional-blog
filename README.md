@@ -1,4 +1,5 @@
 ### Weekly Devotionals by Dr. Inya Nlenanya
+https://weekly-devotional-blog.vercel.app/
 
 Feature weekly devotional posts for spiritual guidance and maturity.
 - Markdown based structure for the devotional posts
