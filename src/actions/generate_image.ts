@@ -7,13 +7,11 @@ import { z } from "astro:schema";
 import { getCollection } from "astro:content";
 import { getSession } from "auth-astro/server";
 
-export const follow_ups = ["More Realistic", "More Detailed", "More Colorful"];
-
 export const generate_image = {
   generateImage: defineAction({
     input: z.object({
       post_id: z.string().optional(),
-      follow_up_id: z.number().optional(),
+      follow_up_prompt: z.string().optional(),
       previous_response_id: z.string().optional(),
     }),
     handler: async (input, ctx) => {
@@ -21,7 +19,7 @@ export const generate_image = {
 
       if (
         !input.post_id &&
-        !input.follow_up_id &&
+        !input.follow_up_prompt &&
         !input.previous_response_id
       ) {
         throw new Error(
@@ -41,7 +39,7 @@ export const generate_image = {
         )[0];
         prompt = `Generate an image for this blog post: ${post.data.description}`;
       } else {
-        prompt = `Now make it ${follow_ups[input.follow_up_id!]}`;
+        prompt = `Now make it ${input.follow_up_prompt}`;
       }
 
       console.log(prompt, input);
