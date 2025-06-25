@@ -143,6 +143,28 @@ const posts = (await getCollection("blog"))
 
       console.log(follow_up_prompts);
 
+      followUps.innerHTML = "";
+      follow_up_prompts.data?.prompts.forEach(
+        (prompt: string, index: number) => {
+          const button = document.createElement("button");
+          button.className = "generate-image-btn";
+          button.id = `follow-up-${index}`;
+          button.textContent = prompt;
+          followUps.appendChild(button);
+          button.addEventListener("click", async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const follow_up_prompt = button.textContent?.trim();
+            if (prev_response_id && follow_up_prompt) {
+              await generateImage({
+                follow_up_prompt,
+              });
+              console.log(`Follow-up: for response ID: ${prev_response_id}`);
+            }
+          });
+        }
+      );
+
       img.src = `data:image/*;base64,${res.data.imageBase64}`;
       followUps.classList.remove("hidden");
       imageDiv.classList.remove("hidden");

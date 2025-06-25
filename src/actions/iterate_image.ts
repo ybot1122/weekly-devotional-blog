@@ -44,7 +44,9 @@ export const iterate_image = {
 
         console.log(message, input);
 
-        return { message };
+        const prompts = JSON.parse(message);
+
+        return { prompts };
       } catch (e) {
         console.error(e);
         throw new Error("Failed to generate image");
