@@ -1,6 +1,5 @@
 ---
 import { getCollection } from "astro:content";
-import { follow_ups } from "../actions/generate_image";
 
 const posts = (await getCollection("blog"))
   .filter((a) => a.id !== "using-mdx")
@@ -20,12 +19,8 @@ const posts = (await getCollection("blog"))
 </form>
 <div id="follow-ups" class="hidden">
   {
-    follow_ups.map((item, ind) => (
-      <button
-        class="generate-image-btn"
-        id={`follow-up-${ind}`}
-        data-followup={ind}
-      >
+    ["More Realistic", "More Happy", "More Detailed"].map((item, ind) => (
+      <button class="generate-image-btn" id={`follow-up-${ind}`}>
         {item}
       </button>
     ))
@@ -121,34 +116,84 @@ const posts = (await getCollection("blog"))
   const img = document.getElementById("image-preview")! as HTMLImageElement;
   const loading = document.getElementById("loading")!;
 
+  // assign click handler to follow up buttons
+  for (let i = 0; i < 3; i++) {
+    const button = document.getElementById(`follow-up-${i}`);
+    if (button) {
+      button.addEventListener("click", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const follow_up_prompt = button.textContent?.trim();
+        if (prev_response_id && follow_up_prompt) {
+          await generateImage({
+            follow_up_prompt,
+          });
+          console.log(`Follow-up: for response ID: ${prev_response_id}`);
+        }
+      });
+    }
+  }
+
+  // shared function to generate image either based on a post or a follow-up
+  const generateImage = async ({
+    follow_up_prompt,
+    post_id,
+  }: {
+    follow_up_prompt?: string;
+    post_id?: string;
+  }) => {
+    imageDiv.classList.add("hidden");
+    followUps.classList.add("hidden");
+    loading.classList.remove("hidden");
+    const res = await actions.generate_image.generateImage({
+      previous_response_id: follow_up_prompt ? prev_response_id : undefined,
+      follow_up_prompt,
+      post_id,
+    });
+
+    if (res.data) {
+      prev_response_id = res.data.reponse_id;
+
+      // create followup actions
+      const follow_up_prompts = await actions.iterate_image.iterate({
+        previous_response_id: prev_response_id,
+      });
+
+      console.log(follow_up_prompts);
+
+      follow_up_prompts.data?.prompts.forEach(
+        (prompt: string, index: number) => {
+          const button = document.getElementById(`follow-up-${index}`);
+          if (button) {
+            button.textContent = prompt;
+          }
+        }
+      );
+
+      img.src = `data:image/*;base64,${res.data.imageBase64}`;
+      followUps.classList.remove("hidden");
+      imageDiv.classList.remove("hidden");
+    } else {
+      console.error("Something went wrong. Sorry!");
+    }
+
+    loading.classList.add("hidden");
+  };
+
+  // assign click handlers to follow-up buttons
   let i = 0;
   let dom = document.getElementById(`follow-up-${i}`);
   while (dom) {
     dom.addEventListener("click", async (e) => {
       e.preventDefault();
       e.stopPropagation();
-      const follow_up_id = parseInt(
-        (e.currentTarget as HTMLElement).dataset.followup || ""
-      );
-      if (prev_response_id) {
-        imageDiv.classList.add("hidden");
-        followUps.classList.add("hidden");
-        loading.classList.remove("hidden");
-        const res = await actions.generate_image.generateImage({
-          previous_response_id: prev_response_id,
-          follow_up_id,
+      const follow_up_prompt = e.target
+        ? (e.target as HTMLElement).textContent?.trim()
+        : "";
+      if (prev_response_id && follow_up_prompt) {
+        await generateImage({
+          follow_up_prompt,
         });
-
-        if (res.data) {
-          img.src = `data:image/*;base64,${res.data.imageBase64}`;
-          prev_response_id = res.data.reponse_id;
-          followUps.classList.remove("hidden");
-          imageDiv.classList.remove("hidden");
-        } else {
-          console.error("Something went wrong. Sorry!");
-        }
-
-        loading.classList.add("hidden");
         console.log(`Follow-up: for response ID: ${prev_response_id}`);
       }
     });
@@ -156,6 +201,7 @@ const posts = (await getCollection("blog"))
     dom = document.getElementById(`follow-up-${i}`);
   }
 
+  // reset UI when a new post is selected
   select.addEventListener("change", () => {
     imageDiv.classList.add("hidden");
     followUps.classList.add("hidden");
@@ -164,27 +210,15 @@ const posts = (await getCollection("blog"))
     btn.textContent = "Generate Image";
   });
 
+  // generate initial image when the form is submitted
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    btn.disabled = true;
-    btn.textContent = "Generating...";
-    imageDiv.classList.add("hidden");
+    btn.classList.add("hidden");
 
     const post_id = select.value;
 
-    const res = await actions.generate_image.generateImage({ post_id });
-
-    if (res.data) {
-      img.src = `data:image/*;base64,${res.data.imageBase64}`;
-      prev_response_id = res.data.reponse_id;
-      btn.textContent = "Generate Image";
-      followUps.classList.remove("hidden");
-      btn.classList.add("hidden");
-    } else {
-      btn.textContent = "Something went wrong. Sorry!";
-    }
-    imageDiv.classList.remove("hidden");
-
-    btn.disabled = false;
+    await generateImage({
+      post_id,
+    });
   });
 </script>
