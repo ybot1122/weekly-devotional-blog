@@ -19,7 +19,7 @@ const posts = (await getCollection("blog"))
 </form>
 <div id="follow-ups" class="hidden">
   {
-    ["More Realistic", "More Happy"].map((item, ind) => (
+    ["More Realistic", "More Happy", "More Detailed"].map((item, ind) => (
       <button class="generate-image-btn" id={`follow-up-${ind}`}>
         {item}
       </button>
@@ -116,6 +116,24 @@ const posts = (await getCollection("blog"))
   const img = document.getElementById("image-preview")! as HTMLImageElement;
   const loading = document.getElementById("loading")!;
 
+  // assign click handler to follow up buttons
+  for (let i = 0; i < 3; i++) {
+    const button = document.getElementById(`follow-up-${i}`);
+    if (button) {
+      button.addEventListener("click", async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const follow_up_prompt = button.textContent?.trim();
+        if (prev_response_id && follow_up_prompt) {
+          await generateImage({
+            follow_up_prompt,
+          });
+          console.log(`Follow-up: for response ID: ${prev_response_id}`);
+        }
+      });
+    }
+  }
+
   // shared function to generate image either based on a post or a follow-up
   const generateImage = async ({
     follow_up_prompt,
@@ -143,25 +161,12 @@ const posts = (await getCollection("blog"))
 
       console.log(follow_up_prompts);
 
-      followUps.innerHTML = "";
       follow_up_prompts.data?.prompts.forEach(
         (prompt: string, index: number) => {
-          const button = document.createElement("button");
-          button.className = "generate-image-btn";
-          button.id = `follow-up-${index}`;
-          button.textContent = prompt;
-          followUps.appendChild(button);
-          button.addEventListener("click", async (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const follow_up_prompt = button.textContent?.trim();
-            if (prev_response_id && follow_up_prompt) {
-              await generateImage({
-                follow_up_prompt,
-              });
-              console.log(`Follow-up: for response ID: ${prev_response_id}`);
-            }
-          });
+          const button = document.getElementById(`follow-up-${index}`);
+          if (button) {
+            button.textContent = prompt;
+          }
         }
       );
 
@@ -208,15 +213,12 @@ const posts = (await getCollection("blog"))
   // generate initial image when the form is submitted
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    btn.disabled = true;
-    btn.textContent = "Generating...";
+    btn.classList.add("hidden");
 
     const post_id = select.value;
 
     await generateImage({
       post_id,
     });
-
-    btn.disabled = false;
   });
 </script>
