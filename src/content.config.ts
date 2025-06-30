@@ -27,7 +27,6 @@ const blog = defineCollection({
         thursday: z.array(dayReadingSchema),
         friday: z.array(dayReadingSchema),
         saturday: z.array(dayReadingSchema),
-        sunday: z.array(dayReadingSchema),
       })
       .optional(),
   }),
