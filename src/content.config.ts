@@ -3,7 +3,7 @@ import { defineCollection, z } from "astro:content";
 
 const dayReadingSchema = z.object({
   book: z.string(),
-  chapter: z.string(),
+  chapter: z.number(),
   startVerse: z.number().optional(),
   endVerse: z.number().optional(),
 });

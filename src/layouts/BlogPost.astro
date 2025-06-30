@@ -70,6 +70,32 @@ const { title, description, pubDate, updatedDate, heroImage, post_id, days } =
           <div id="post">
             <slot />
           </div>
+          {
+            days && (
+              <div id="days">
+                <h2>Daily Readings</h2>
+                <ul>
+                  {Object.entries(days).map(([day, readings]) => (
+                    <li>
+                      <strong>
+                        {day.charAt(0).toUpperCase() + day.slice(1)}:
+                      </strong>
+                      {Array.isArray(readings)
+                        ? readings.map((reading, idx) => (
+                            <span>
+                              {reading.book} {reading.chapter}
+                              {reading.startVerse && `:${reading.startVerse}`}
+                              {reading.endVerse && `-${reading.endVerse}`}
+                              {idx < readings.length - 1 && ", "}
+                            </span>
+                          ))
+                        : null}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          }
         </div>
       </article>
     </main>
