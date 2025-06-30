@@ -34,6 +34,10 @@ const post_id = Astro.props.post_id;
     background: #eee;
     border-color: #888;
   }
+
+  .hidden {
+    visibility: hidden;
+  }
 </style>
 
 <div class="audio-player">
@@ -89,6 +93,7 @@ const post_id = Astro.props.post_id;
   ) as HTMLSelectElement;
 
   const ps = [p1, p2, p3];
+  const form = [btn, voiceEl, toneEl];
 
   if (btn && p1 && p2 && p3 && btn.dataset.postid && voiceEl) {
     let playing = false;
@@ -147,6 +152,7 @@ const post_id = Astro.props.post_id;
         }
 
         document.getElementById("label")!.innerText = "loading...";
+        form.forEach((el) => el!.classList.add("hidden"));
 
         actions.tts
           .tts({
@@ -192,6 +198,7 @@ const post_id = Astro.props.post_id;
         }
 
         document.getElementById("label")!.innerText = "OpenAI Text-to-Speech";
+        form.forEach((el) => el!.classList.remove("hidden"));
       }
 
       if (playing) {

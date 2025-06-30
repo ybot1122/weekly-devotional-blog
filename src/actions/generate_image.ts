@@ -37,7 +37,7 @@ export const generate_image = {
         const post = (await getCollection("blog")).filter(
           (a) => a.id === input.post_id
         )[0];
-        prompt = `Generate an image for this blog post: ${post.data.description}`;
+        prompt = `Generate an image for this blog post: ${post.data.description}. The image should not contain text. The image should have 4:3 aspect ratio.`;
       } else {
         prompt = `Now make it ${input.follow_up_prompt}`;
       }
