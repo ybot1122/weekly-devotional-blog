@@ -101,7 +101,7 @@ const { title, description, pubDate, updatedDate, heroImage, post_id, days } =
                                   href={`https://www.biblegateway.com/passage/?search=${encodeURI(`${book} ${chapter}`)}`}
                                   target="_blank"
                                 >
-                                  {`${book} ${chapter}${startVerse && `: ${startVerse}`}${endVerse && `-${endVerse}`}`}
+                                  {`${book} ${chapter}${startVerse ? `: ${startVerse}` : ""}${endVerse ? `-${endVerse}` : ""}`}
                                 </a>
                                 {idx < readings.length - 1 && ", "}
                               </span>
