@@ -19,7 +19,14 @@ const posts = (await getCollection("blog"))
 </form>
 <div id="follow-ups" class="hidden">
   {
-    ["More Realistic", "More Happy", "More Detailed"].map((item, ind) => (
+    [
+      "More Realistic",
+      "More Happy",
+      "More Detailed",
+      "placeholder",
+      "placeholder",
+      "placeholder",
+    ].map((item, ind) => (
       <button class="generate-image-btn" id={`follow-up-${ind}`}>
         {item}
       </button>

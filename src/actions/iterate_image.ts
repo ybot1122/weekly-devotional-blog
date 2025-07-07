@@ -28,7 +28,7 @@ export const iterate_image = {
         const response = await openai.responses.create({
           model: "gpt-4.1-mini",
           input:
-            "You must suggest 3 prompts to iterate on this image. The response should be a JSON array of strings. Each prompt should be 20 chracters or less. Do not include any other text or markdown in the response.",
+            "You must suggest 6 prompts to iterate on this image. The response should be a JSON array of strings. Each prompt should be 20 chracters or less. Do not include any other text or markdown in the response. At least one prompt should be to add or remove humans from the picture (depending on if the picture has humans in it). Also at least one prompt should be to iterate on the style of the picture, making it more realistic or more photorealistic, or more artistic, depending on the current style.",
           previous_response_id: input.previous_response_id,
         });
 
