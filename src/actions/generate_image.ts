@@ -37,7 +37,7 @@ export const generate_image = {
         const post = (await getCollection("blog")).filter(
           (a) => a.id === input.post_id
         )[0];
-        prompt = `You are a graphic designer for my blog. The image should not contain text. The image must be 400px wide and 300px tall. Also do not worry about making it perfect, try to generate something quickly. Create an image that fits this blog post description: ${post.data.description}.`;
+        prompt = `Create an image that fits this blog post description: ${post.data.description}`;
       } else {
         prompt = `Now make it ${input.follow_up_prompt}`;
       }
@@ -47,6 +47,8 @@ export const generate_image = {
       try {
         const response = await openai.responses.create({
           model: "gpt-4.1-mini",
+          instructions:
+            "You are a graphic designer for my blog. All images must not contain text and must be 400px wide and 300px tall.",
           input: prompt,
           previous_response_id: input.previous_response_id,
           tools: [
