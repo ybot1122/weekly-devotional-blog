@@ -37,7 +37,11 @@ export const generate_image = {
         const post = (await getCollection("blog")).filter(
           (a) => a.id === input.post_id
         )[0];
-        prompt = `Create an image that fits this blog post description: ${post.data.description}`;
+        prompt = `${
+          post.data.imagePrompt
+            ? post.data.imagePrompt
+            : `Create an image that fits this blog post description: ${post.data.description}`
+        }`;
       } else {
         prompt = `Now make it ${input.follow_up_prompt}`;
       }
@@ -48,7 +52,7 @@ export const generate_image = {
         const response = await openai.responses.create({
           model: "gpt-4.1-mini",
           instructions:
-            "You are a graphic designer for my blog. All images must not contain text and must be 400px wide and 300px tall.",
+            "You are a graphic designer for my blog. Image must not contain text. Image must be 400px wide and 300px tall.",
           input: prompt,
           previous_response_id: input.previous_response_id,
           tools: [
