@@ -6,7 +6,7 @@ import { getCollection } from "astro:content";
 const sql = neon(import.meta.env.DATABASE_URL);
 
 const pages = await getCollection("blog");
-const valid_ids = pages.map((page) => page.id);
+const valid_ids = pages.map((page) => page.data.id);
 
 export const fetch_comments = {
   fetchComments: defineAction({
@@ -20,7 +20,7 @@ export const fetch_comments = {
       }
       const response =
         await sql`SELECT * FROM comments WHERE article_id = ${article_id}::uuid`;
-      const data = JSON.stringify(response);
+      const data = response;
       return data;
     },
   }),

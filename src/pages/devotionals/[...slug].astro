@@ -23,10 +23,9 @@ const { Content } = await render(post);
   <head>
     <BaseHead title={post.data.title} description={post.data.description} />
     <style>
-            main {
+      main {
         width: 960px;
       }
-
     </style>
   </head>
   <body>
@@ -36,7 +35,7 @@ const { Content } = await render(post);
         <Content />
       </BlogPost>
       <section>
-        <CommentSection />
+        <CommentSection articleId={post.data.id} />
       </section>
     </main>
     <Footer />

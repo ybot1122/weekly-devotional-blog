@@ -1,57 +1,84 @@
 ---
-const comments = [
-  {
-    author: "Jane Doe",
-    date: "2024-06-01T10:30:00Z",
-    content: "This is a wonderful devotional. Thank you for sharing!"
-  },
-  {
-    author: "John Smith",
-    date: "2024-06-02T14:15:00Z",
-    content: "I found this very inspiring. Looking forward to more posts."
-  },
-  {
-    author: "Emily Chen",
-    date: "2024-06-03T09:05:00Z",
-    content: `This devotional really spoke to me today.
-I appreciate the thoughtful reflection and the scripture references.`
-  },
-  {
-    author: "Carlos Rivera",
-    date: "2024-06-03T17:42:00Z",
-    content: `Thank you for posting this.
-It helped me refocus my day and reminded me of what's important.`
-  },
-  {
-    author: "Priya Patel",
-    date: "2024-06-04T08:20:00Z",
-    content: `Beautiful message!
-I shared this with my family and we discussed it together.
-Keep up the great work.`
-  },
-  {
-    author: "Alex Kim",
-    date: "2024-06-04T13:55:00Z",
-    content: `I love how you break down the verses and make them easy to understand.
-The daily readings section is especially helpful.`
-  },
-  {
-    author: "Fatima Al-Farsi",
-    date: "2024-06-05T07:30:00Z",
-    content: `This was exactly what I needed to read this morning.
-Thank you for your dedication and for sharing your insights with us.`
-  }
-];
-
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
-}
 ---
+
+<div class="comment-section">
+  <h3>Responses</h3>
+  <div id="comment-list" data-article-id={Astro.props.articleId}>
+    <p>loading...</p>
+  </div>
+  <!--
+  <form id="comment-form" class="comment-form" data-article-id={Astro.props.articleId}>
+    <div class="form-group">
+      <label for="author" class="form-label">Name</label>
+      <input
+        type="text"
+        id="author"
+        name="author"
+        required
+        class="form-input"
+      />
+    </div>
+    <div class="form-group">
+      <label for="content" class="form-label">Comment</label>
+      <textarea
+        id="content"
+        name="content"
+        rows="4"
+        required
+        class="form-input"
+      ></textarea>
+    </div>
+    <button
+      type="submit"
+      class="form-button"
+    >
+      Add Comment
+    </button>
+  </form>
+-->
+  <script>
+    import { actions } from "astro:actions";
+    const commentSection = document.getElementById('comment-list')!;
+    const articleId = commentSection.dataset.articleId ?? '';
+    const cid = 'data-astro-cid-'+ (Object.keys(commentSection.dataset).find(key => key.startsWith('astroCid'))?.substring(8).toLowerCase() ?? '');
+
+    const {data: comments} = await actions.fetch_comments.fetchComments({article_id: articleId});
+
+    commentSection.removeChild(commentSection.children[0]!);
+    if (!comments || comments.length === 0) {
+      const noComments = document.createElement('p')!;
+      noComments.textContent = "No responses yet.";
+      commentSection.appendChild(noComments);
+    } else {
+      comments.forEach(comment => {
+        const commentDiv = document.createElement('div')!;
+        const commentAuthor = document.createElement('span')!;
+        const commentDate = document.createElement('span')!;
+        const commentContent = document.createElement('div')!;
+
+        commentAuthor.textContent = comment.author;
+        commentDate.textContent = new Date(comment.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+        commentContent.textContent = comment.content;
+
+        commentDiv.appendChild(commentAuthor);
+        commentDiv.appendChild(commentDate); 
+        commentDiv.appendChild(commentContent);
+        
+        commentDiv.classList.add('comment');
+        commentAuthor.classList.add('comment-author');
+        commentDate.classList.add('comment-date');
+        commentContent.classList.add('comment-content');
+
+        commentDiv.setAttribute(cid, '');
+        commentAuthor.setAttribute(cid, '');
+        commentDate.setAttribute(cid, '');
+        commentContent.setAttribute(cid, '');
+
+        commentSection.appendChild(commentDiv);
+      });
+    }
+  </script>
+</div>
 
 <style>
   .comment-section {
@@ -106,76 +133,3 @@ function formatDate(dateString) {
     cursor: pointer;
   }
 </style>
-
-<div class="comment-section">
-  <h3>Responses</h3>
-  {comments.length === 0 ? (
-    <p>No comments yet. Be the first to comment!</p>
-  ) : (
-    comments.map(comment => (
-      <div class="comment">
-        <div>
-          <span class="comment-author">{comment.author}</span>
-          <span class="comment-date">{formatDate(comment.date)}</span>
-        </div>
-        <div class="comment-content">{comment.content}</div>
-      </div>
-    ))
-  )}
-  <form id="comment-form" class="comment-form">
-    <div class="form-group">
-      <label for="author" class="form-label">Name</label>
-      <input
-        type="text"
-        id="author"
-        name="author"
-        required
-        class="form-input"
-      />
-    </div>
-    <div class="form-group">
-      <label for="content" class="form-label">Comment</label>
-      <textarea
-        id="content"
-        name="content"
-        rows="4"
-        required
-        class="form-input"
-      ></textarea>
-    </div>
-    <button
-      type="submit"
-      class="form-button"
-    >
-      Add Comment
-    </button>
-  </form>
-  <script type="module">
-    const form = document.getElementById('comment-form');
-    form?.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const author = (form.querySelector('#author')).value.trim();
-      const content = (form.querySelector('#content')).value.trim();
-      if (!author || !content) return;
-      // For demo: just append to DOM (no backend)
-      const commentSection = form.parentElement;
-      const newComment = document.createElement('div');
-      newComment.className = 'comment';
-      const now = new Date();
-      newComment.innerHTML = `
-        <div>
-          <span class="comment-author"></span>
-          <span class="comment-date"></span>
-        </div>
-        <div class="comment-content"></div>
-      `;
-      newComment.querySelector('.comment-author').textContent = author;
-      newComment.querySelector('.comment-date').textContent = now.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
-      newComment.querySelector('.comment-content').textContent = content;
-      // Insert before the form
-      commentSection.insertBefore(newComment, form);
-      form.reset();
-    });
-  </script>
-</div>
-
