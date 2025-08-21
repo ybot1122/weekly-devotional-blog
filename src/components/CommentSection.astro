@@ -1,0 +1,102 @@
+---
+const comments = [
+  {
+    author: "Jane Doe",
+    date: "2024-06-01T10:30:00Z",
+    content: "This is a wonderful devotional. Thank you for sharing!"
+  },
+  {
+    author: "John Smith",
+    date: "2024-06-02T14:15:00Z",
+    content: "I found this very inspiring. Looking forward to more posts."
+  },
+  {
+    author: "Emily Chen",
+    date: "2024-06-03T09:05:00Z",
+    content: `This devotional really spoke to me today.
+I appreciate the thoughtful reflection and the scripture references.`
+  },
+  {
+    author: "Carlos Rivera",
+    date: "2024-06-03T17:42:00Z",
+    content: `Thank you for posting this.
+It helped me refocus my day and reminded me of what's important.`
+  },
+  {
+    author: "Priya Patel",
+    date: "2024-06-04T08:20:00Z",
+    content: `Beautiful message!
+I shared this with my family and we discussed it together.
+Keep up the great work.`
+  },
+  {
+    author: "Alex Kim",
+    date: "2024-06-04T13:55:00Z",
+    content: `I love how you break down the verses and make them easy to understand.
+The daily readings section is especially helpful.`
+  },
+  {
+    author: "Fatima Al-Farsi",
+    date: "2024-06-05T07:30:00Z",
+    content: `This was exactly what I needed to read this morning.
+Thank you for your dedication and for sharing your insights with us.`
+  }
+];
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+}
+---
+
+<style>
+  .comment-section {
+    margin-top: 2em;
+    padding: 1em;
+    background: #f9f9f9;
+    border-radius: 8px;
+  }
+  .comment {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1em 0;
+  }
+  .comment:last-child {
+    border-bottom: none;
+  }
+  .comment-author {
+    font-weight: bold;
+    color: #2b6cb0;
+  }
+  .comment-date {
+    font-size: 0.9em;
+    color: #718096;
+    margin-left: 0.5em;
+  }
+  .comment-content {
+    margin-top: 0.5em;
+    color: #2d3748;
+    white-space: pre-line;
+  }
+</style>
+
+<div class="comment-section">
+  <h3>Responses</h3>
+  {comments.length === 0 ? (
+    <p>No comments yet. Be the first to comment!</p>
+  ) : (
+    comments.map(comment => (
+      <div class="comment">
+        <div>
+          <span class="comment-author">{comment.author}</span>
+          <span class="comment-date">{formatDate(comment.date)}</span>
+        </div>
+        <div class="comment-content">{comment.content}</div>
+      </div>
+    ))
+  )}
+</div>
+

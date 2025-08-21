@@ -5,6 +5,7 @@ import { render } from "astro:content";
 import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
+import CommentSection from "../../components/CommentSection.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -34,9 +35,9 @@ const { Content } = await render(post);
       <BlogPost {...post.data} post_id={post.id}>
         <Content />
       </BlogPost>
-      <div>
-        <h1>Comment Section</h1>
-      </div>
+      <section>
+        <CommentSection />
+      </section>
     </main>
     <Footer />
   </body>
