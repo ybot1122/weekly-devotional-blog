@@ -1,4 +1,5 @@
 ---
+id: "29d897a7-f75e-460d-9ca1-c0f2819acca6"
 title: "The Annihilation of Self"
 description: "When new wine is poured into an old wineskin, it bursts because the wineskin cannot contain its effervescence, resulting in waste. This serves as a biblical parallel to the annihilation of self. We see this principle illustrated in the parable of the prodigal son."
 pubDate: "Feb 24 2025"

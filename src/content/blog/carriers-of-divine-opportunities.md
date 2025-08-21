@@ -1,4 +1,5 @@
 ---
+id: "b2aa4a7e-3a60-4eeb-884c-166bbabf6815"
 title: "Carriers of Divine Opportunities"
 description: 'Today is the day that God has made. Hebrews 4:7 tells us that God has set aside a specific day called "Today."'
 pubDate: "Jan 27 2025"

@@ -1,4 +1,5 @@
 ---
+id: "3c16cd7a-56d4-4760-93cb-fde6b6449fd6"
 title: "Conquering the Season"
 description: "Victory is only possible in how we receive and align with His Word. There is no true victory that bypasses the Word—because God doesn’t just speak truth, He is truth."
 pubDate: "Mar 24 2025"

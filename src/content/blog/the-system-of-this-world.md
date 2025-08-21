@@ -1,4 +1,5 @@
 ---
+id: "ae21b994-f1e9-430e-9d9e-d32f8206c3c5"
 title: "The System of This World"
 description: "For centuries, human existence has been framed as a battle—good versus evil, light against darkness, heaven or hell. But this view is dangerously deceptive."
 pubDate: "Feb 17 2025"

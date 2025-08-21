@@ -1,4 +1,5 @@
 ---
+id: "6de8234b-1872-41b6-81c2-780819e84bca"
 title: "One Bite at a Time"
 description: "There is a kind of captivity that does not involve physical chains, yet it is just as restrictive. It is the captivity of the mind, an unseen stronghold that keeps people from walking in the fullness of what has been made available to them. "
 pubDate: "Mar 3 2025"

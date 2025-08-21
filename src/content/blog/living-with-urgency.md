@@ -1,4 +1,5 @@
 ---
+id: "4e65148a-c03f-4699-a78d-9c8d5c45e4c0"
 title: "Living With Urgency"
 description: "Have you ever wondered why we so often wait until the last moment to do our assignments? We complain that there’s never enough time, yet even when given additional time, we somehow end up racing against the clock. There’s something about urgency that sharpens our focus."
 pubDate: "Apr 7 2025"

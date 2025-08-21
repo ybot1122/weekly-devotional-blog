@@ -1,4 +1,5 @@
 ---
+id: "e5eee8d8-7bff-4345-823e-21b8a73e22e7"
 title: "Resurrection for Dummies"
 description: "Resurrection is truly for dummies. It defies scientific explanation, logical analysis, and intellectual mastery. Jesus died, rose on the third day, and is alive."
 pubDate: "Apr 21 2025"

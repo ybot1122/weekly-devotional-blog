@@ -1,4 +1,5 @@
 ---
+id: "2913339f-6602-41be-af91-1f4475f75d08"
 title: "Giving Up Control"
 description: "This week, the Lord extends a deeper invitation: to let go, to listen, and to trust. Jesus declared, “All authority in heaven and on earth has been given to me” (Matthew 28:18). To walk in that authority, we must submit to Him completely. We cannot wield power we are not subject to (James 4:7)."
 pubDate: "May 19 2025"

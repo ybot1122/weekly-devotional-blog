@@ -1,4 +1,5 @@
 ---
+id: "c7c0de9b-146c-408b-8220-f815fdd8958e"
 title: "Living Out the Resurrection"
 description: "My daughter is a big Star Wars fan. This Saturday marked the 20th anniversary of the theater release of Episode III: Revenge of the Sith, and she wanted to commemorate it by watching the film. Naturally, we went to see it. In this episode, Anakin Skywalker transitions to the dark side, becoming a Sith Lord. The pivotal force behind this transformation was Anakin’s desperation to prevent his wife from dying in childbirth. Having already lost his mother, he was determined to do anything—no matter the cost—to avoid another devastating loss. Master Yoda warned him that death was a natural process, but Anakin would not accept it."
 pubDate: "Apr 28 2025"

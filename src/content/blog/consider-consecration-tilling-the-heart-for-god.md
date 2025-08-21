@@ -1,4 +1,5 @@
 ---
+id: "5f408bde-d533-4b53-b2ee-5054282cdd55"
 title: "Consider Consecration: Tilling the Heart for God"
 description: "In Jesus’ parable of the sower (Mark 4, Matthew 13), we see a powerful metaphor: the same seed is sown in different soils, but the outcome varies. Why? Because the Word isn’t the issue. The Word never changes. The seed is perfect. The variable is the soil—our hearts, our alignment, our level of submission."
 pubDate: "May 12 2025"

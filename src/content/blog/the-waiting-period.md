@@ -1,4 +1,5 @@
 ---
+id: "5f561f5f-d4bc-4eb7-9a99-204fe3f29eea"
 title: "The Waiting Period"
 description: "I came to the US on September 21, 2002; that is the arrival date stamped on my passport. That journey started 10 years prior. It began by activating a network of well-placed friends and a university professor. I was born in the US, and technically, it didn’t really require much more to make the transition. But somehow, all the doors were closed."
 pubDate: "Jan 20 2025"

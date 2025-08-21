@@ -1,8 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import BaseHead from "../components/BaseHead.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import HeroImage from "../components/HeroImage.astro";
 import AudioPlayer from "../components/AudioPlayer.astro";
@@ -12,111 +10,96 @@ type Props = CollectionEntry<"blog">["data"] & { post_id: string };
 const { title, description, pubDate, updatedDate, heroImage, post_id, days } =
   Astro.props;
 ---
+<style>
+  .prose {
+    max-width: calc(100% - 2em);
+    margin: auto;
+    padding: 1em;
+    color: rgb(var(--gray-dark));
+  }
+  .title {
+    margin-bottom: 1em;
+    padding: 1em 0;
+    text-align: center;
+    line-height: 1;
+  }
+  .title h1 {
+    margin: 0 0 0.5em 0;
+  }
+  .date {
+    margin-bottom: 0.5em;
+    color: rgb(var(--gray));
+  }
+  .last-updated-on {
+    font-style: italic;
+  }
 
-<html lang="en">
-  <head>
-    <BaseHead title={title} description={description} />
-    <style>
-      main {
-        width: 960px;
-      }
-      .prose {
-        max-width: calc(100% - 2em);
-        margin: auto;
-        padding: 1em;
-        color: rgb(var(--gray-dark));
-      }
-      .title {
-        margin-bottom: 1em;
-        padding: 1em 0;
-        text-align: center;
-        line-height: 1;
-      }
-      .title h1 {
-        margin: 0 0 0.5em 0;
-      }
-      .date {
-        margin-bottom: 0.5em;
-        color: rgb(var(--gray));
-      }
-      .last-updated-on {
-        font-style: italic;
-      }
+  #days h3 {
+    border-bottom: 1px solid #90cdf4;
+  }
 
-      #days h3 {
-        font-size: 2rem;
-        border-bottom: 1px solid #90cdf4;
-      }
+  #days a {
+    color: #3182ce;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
 
-      #days a {
-        color: #3182ce;
-        text-decoration: none;
-        transition: color 0.2s;
-      }
+  #days a:hover {
+    color: #2b6cb0;
+    text-decoration: underline;
+  }
+</style>
 
-      #days a:hover {
-        color: #2b6cb0;
-        text-decoration: underline;
-      }
-    </style>
-  </head>
-
-  <body>
-    <Header />
-    <main>
-      <article>
-        {heroImage && <HeroImage imageSrc={heroImage} alt="" />}
-        <div class="prose">
-          <div class="title">
-            <div class="date">
-              Published <FormattedDate date={pubDate} />
-              {
-                updatedDate && (
-                  <div class="last-updated-on">
-                    Last updated on <FormattedDate date={updatedDate} />
-                  </div>
-                )
-              }
+<article>
+  {heroImage && <HeroImage imageSrc={heroImage} alt="" />}
+  <div class="prose">
+    <div class="title">
+      <div class="date">
+        Published <FormattedDate date={pubDate} />
+        {
+          updatedDate && (
+            <div class="last-updated-on">
+              Last updated on <FormattedDate date={updatedDate} />
             </div>
-            <h1>{title}</h1>
-            <AudioPlayer post_id={post_id} />
-            <hr />
-          </div>
-          <div id="post">
-            <slot />
-          </div>
-          {
-            days && (
-              <div id="days">
-                <h3>Daily Readings</h3>
-                <ul>
-                  {Object.entries(days).map(([day, readings]) => (
-                    <li>
-                      {day.charAt(0).toUpperCase() + day.slice(1)}:
-                      {Array.isArray(readings)
-                        ? readings.map(
-                            ({ book, chapter, startVerse, endVerse }, idx) => (
-                              <span>
-                                <a
-                                  href={`https://www.biblegateway.com/passage/?search=${encodeURI(`${book} ${chapter}`)}`}
-                                  target="_blank"
-                                >
-                                  {`${book} ${chapter}${startVerse ? `: ${startVerse}` : ""}${endVerse ? `-${endVerse}` : ""}`}
-                                </a>
-                                {idx < readings.length - 1 && ", "}
-                              </span>
-                            )
-                          )
-                        : null}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )
-          }
+          )
+        }
+      </div>
+      <h1>{title}</h1>
+      <AudioPlayer post_id={post_id} />
+      <hr />
+    </div>
+    <div id="post">
+      <slot />
+    </div>
+    {
+      days && (
+        <div id="days">
+          <h3>Daily Readings</h3>
+          <ul>
+            {Object.entries(days).map(([day, readings]) => (
+              <li>
+                {day.charAt(0).toUpperCase() + day.slice(1)}:
+                {Array.isArray(readings)
+                  ? readings.map(
+                      ({ book, chapter, startVerse, endVerse }, idx) => (
+                        <span>
+                          <a
+                            href={`https://www.biblegateway.com/passage/?search=${encodeURI(`${book} ${chapter}`)}`}
+                            target="_blank"
+                          >
+                            {`${book} ${chapter}${startVerse ? `: ${startVerse}` : ""}${endVerse ? `-${endVerse}` : ""}`}
+                          </a>
+                          {idx < readings.length - 1 && ", "}
+                        </span>
+                      )
+                    )
+                  : null}
+              </li>
+            ))}
+          </ul>
         </div>
-      </article>
-    </main>
-    <Footer />
-  </body>
-</html>
+      )
+    }
+  </div>
+</article>
+
