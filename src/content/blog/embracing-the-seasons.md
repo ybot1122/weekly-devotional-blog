@@ -1,4 +1,5 @@
 ---
+id: "8ce1714f-9412-48f1-a9a5-0cb921064a5b"
 title: "Embracing the Seasons"
 description: "Instead of waiting for an entire lifetime for people to change—like in the days of Noah—God introduced seasons and cycles. Winter comes so that weeds may die, allowing space for new life to emerge."
 pubDate: "Mar 17 2025"

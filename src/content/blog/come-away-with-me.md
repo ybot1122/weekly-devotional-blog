@@ -1,4 +1,5 @@
 ---
+id: "8efab007-8a87-4657-ba1c-d48f14a41338"
 title: "Come Away With Me"
 description: "Last night was the Super Bowl—the American football equivalent of the FIFA World Cup. But it wasn’t just about the game. It was about something else, too: the staggering price of attention. A single 30-second ad cost a record-breaking $8 million. Let that sink in."
 pubDate: "Feb 10 2025"

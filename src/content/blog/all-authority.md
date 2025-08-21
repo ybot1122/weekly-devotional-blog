@@ -1,4 +1,5 @@
 ---
+id: "64267250-2331-4204-b8c9-dc239e6244fb"
 title: "All Authority"
 description: "I know there are times when we are faced with situations that cause us to doubt God. We become preoccupied with the stone that’s blocking our access, or overwhelmed by the Anakites in our lives—the giants that make us feel unqualified or unworthy to step into the promise. Yes, the land may be flowing with milk and honey, but sometimes we believe we don’t belong there."
 pubDate: "May 5 2025"

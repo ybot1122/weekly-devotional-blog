@@ -1,4 +1,5 @@
 ---
+id: "397b6ee3-3b8a-421f-8922-2df75accd135"
 title: "The Purpose of Seasons"
 description: "Instead of waiting for an entire lifetime for people to change—like in the days of Noah—God introduced seasons and cycles. Winter comes so that weeds may die, allowing space for new life to emerge."
 pubDate: "Mar 10 2025"

@@ -1,4 +1,5 @@
 ---
+id: "eab81ce8-ca49-4b77-b430-d77c394ad389"
 title: "Modus Operandi"
 description: "Welcome to your year of unmissable evidence. There is a truth in scripture that we often take for granted. Whenever God gives an assignment, He always provides the template or plans and equips us with the necessary skills and anointing."
 pubDate: "Jan 6 2025"

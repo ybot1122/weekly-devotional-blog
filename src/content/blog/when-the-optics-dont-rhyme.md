@@ -1,4 +1,5 @@
 ---
+id: "4293e266-54e1-48f8-b4f0-d099507f8d65"
 title: "When the Optics Don't Rhyme"
 description: "There are those moments in life when how things look doesn’t line up with what God has said. The picture doesn’t match the promise. The optics just don’t rhyme."
 pubDate: "May 26 2025"
