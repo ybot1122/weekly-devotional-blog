@@ -1,4 +1,5 @@
 ---
+const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
 ---
 
 <div class="comment-section">
@@ -6,7 +7,6 @@
   <div id="comment-list" data-article-id={Astro.props.articleId}>
     <p>loading...</p>
   </div>
-  <!--
   <form id="comment-form" class="comment-form" data-article-id={Astro.props.articleId}>
     <div class="form-group">
       <label for="author" class="form-label">Name</label>
@@ -19,7 +19,7 @@
       />
     </div>
     <div class="form-group">
-      <label for="content" class="form-label">Comment</label>
+      <label for="content" class="form-label">Response</label>
       <textarea
         id="content"
         name="content"
@@ -30,19 +30,59 @@
     </div>
     <button
       type="submit"
-      class="form-button"
-    >
-      Add Comment
+      class="g-recaptcha form-button" 
+      data-sitekey={RECAPTCHA_SITE_KEY}
+      data-callback='onSubmit' 
+      data-action='submit'>
+      Submit Response
     </button>
+    <div id="info" class="info" />
   </form>
--->
+
+  <!-- Dynamically load reCAPTCHA script to avoid CORS error -->
   <script>
+    const recaptchaScript = document.createElement('script');
+    recaptchaScript.src = `https://www.google.com/recaptcha/api.js`;
+    recaptchaScript.async = true;
+    document.head.appendChild(recaptchaScript);
+  </script>
+
+  <script>
+    // Fetch and display comments
     import { actions } from "astro:actions";
+
     const commentSection = document.getElementById('comment-list')!;
     const articleId = commentSection.dataset.articleId ?? '';
     const cid = 'data-astro-cid-'+ (Object.keys(commentSection.dataset).find(key => key.startsWith('astroCid'))?.substring(8).toLowerCase() ?? '');
 
     const {data: comments} = await actions.fetch_comments.fetchComments({article_id: articleId});
+
+    function renderComment(comment: {author: string, created_at: string, content: string}) {
+      const commentDiv = document.createElement('div')!;
+      const commentAuthor = document.createElement('span')!;
+      const commentDate = document.createElement('span')!;
+      const commentContent = document.createElement('div')!;
+
+      commentAuthor.textContent = comment.author;
+      commentDate.textContent = new Date(comment.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+      commentContent.textContent = comment.content;
+
+      commentDiv.appendChild(commentAuthor);
+      commentDiv.appendChild(commentDate); 
+      commentDiv.appendChild(commentContent);
+
+      commentDiv.classList.add('comment');
+      commentAuthor.classList.add('comment-author');
+      commentDate.classList.add('comment-date');
+      commentContent.classList.add('comment-content');
+
+      commentDiv.setAttribute(cid, '');
+      commentAuthor.setAttribute(cid, '');
+      commentDate.setAttribute(cid, '');
+      commentContent.setAttribute(cid, '');
+
+      commentSection.appendChild(commentDiv);
+    }
 
     commentSection.removeChild(commentSection.children[0]!);
     if (!comments || comments.length === 0) {
@@ -50,33 +90,70 @@
       noComments.textContent = "No responses yet.";
       commentSection.appendChild(noComments);
     } else {
-      comments.forEach(comment => {
-        const commentDiv = document.createElement('div')!;
-        const commentAuthor = document.createElement('span')!;
-        const commentDate = document.createElement('span')!;
-        const commentContent = document.createElement('div')!;
-
-        commentAuthor.textContent = comment.author;
-        commentDate.textContent = new Date(comment.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
-        commentContent.textContent = comment.content;
-
-        commentDiv.appendChild(commentAuthor);
-        commentDiv.appendChild(commentDate); 
-        commentDiv.appendChild(commentContent);
-        
-        commentDiv.classList.add('comment');
-        commentAuthor.classList.add('comment-author');
-        commentDate.classList.add('comment-date');
-        commentContent.classList.add('comment-content');
-
-        commentDiv.setAttribute(cid, '');
-        commentAuthor.setAttribute(cid, '');
-        commentDate.setAttribute(cid, '');
-        commentContent.setAttribute(cid, '');
-
-        commentSection.appendChild(commentDiv);
-      });
+      comments.forEach(comment => renderComment(comment as any));
     }
+
+    // Handle form submission
+    const commentForm = document.getElementById('comment-form')! as HTMLFormElement;
+    const submitButton = commentForm.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const info = document.getElementById('info')!;
+
+    let isSubmitting = false;
+
+    (window as any).onSubmit = async function onSubmit(token: string) {
+      if (isSubmitting) return;
+      isSubmitting = true;
+      info.textContent = '';
+
+      const formData = new FormData(commentForm);
+      const articleId = commentForm.dataset.articleId ?? '';
+      formData.append('article_id', articleId);
+
+      const comment = formData.get('content')?.toString();
+      const author = formData.get('author')?.toString();
+      if (!comment || !author) {
+        info.textContent = "Please fill in all fields.";
+        isSubmitting = false;
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Submitting...';
+
+      try {
+        const result = await actions.post_comment.postComment({
+          article_id: articleId, 
+          comment,
+          author,
+          token,
+        });
+
+        if (result.data === true) {
+          commentForm.innerHTML = `
+            <p>Thank you for your response!</p>
+          `;
+        } else {
+          info.textContent = "Submission failed.";
+          return;
+        }
+
+
+        renderComment({author, created_at: new Date().toISOString(), content: comment});
+
+      } catch (e) {
+        console.error(e);
+        info.textContent = "An error occurred. Please try again.";
+      } finally {
+        isSubmitting = false;
+        submitButton.disabled = false;
+        submitButton.textContent = 'Submit Response';
+      }
+    }
+
+    commentForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
   </script>
 </div>
 
@@ -131,5 +208,10 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+  }
+  .info {
+    color: red;
+    height: 1.5em;
+    font-size: 0.9em;
   }
 </style>
