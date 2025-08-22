@@ -121,16 +121,22 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
       submitButton.textContent = 'Submitting...';
 
       try {
-        await actions.post_comment.postComment({
+        const result = await actions.post_comment.postComment({
           article_id: articleId, 
           comment,
           author,
           token,
         });
 
-        commentForm.innerHTML = `
-          <p>Thank you for your response!</p>
-        `;
+        if (result.data === true) {
+          commentForm.innerHTML = `
+            <p>Thank you for your response!</p>
+          `;
+        } else {
+          info.textContent = "Submission failed.";
+          return;
+        }
+
 
         renderComment({author, created_at: new Date().toISOString(), content: comment});
 
@@ -142,9 +148,7 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
         submitButton.disabled = false;
         submitButton.textContent = 'Submit Response';
       }
-
     }
-
 
     commentForm.addEventListener('submit', (e) => {
       e.preventDefault();
