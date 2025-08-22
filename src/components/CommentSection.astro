@@ -36,6 +36,7 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
       data-action='submit'>
       Submit Response
     </button>
+    <div id="info" class="info" />
   </form>
 
   <!-- Dynamically load reCAPTCHA script to avoid CORS error -->
@@ -93,26 +94,51 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
 
   <script>
     // handle comment form submission
+    import { actions } from "astro:actions";
     const commentForm = document.getElementById('comment-form')! as HTMLFormElement;
+    const submitButton = commentForm.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const info = document.getElementById('info')!;
+
+    let isSubmitting = false;
 
     (window as any).onSubmit = function onSubmit(token: string) {
-      console.log(token)
-      console.log('Submitting comment form...');
+      if (isSubmitting) return;
+      isSubmitting = true;
+      info.textContent = '';
 
       const formData = new FormData(commentForm);
       const articleId = commentForm.dataset.articleId ?? '';
       formData.append('article_id', articleId);
 
-      const submitButton = commentForm.querySelector('button[type="submit"]') as HTMLButtonElement;
-      submitButton.setAttribute('disabled', 'true');
+      const comment = formData.get('content')?.toString();
+      const author = formData.get('author')?.toString();
+      if (!comment || !author) {
+        info.textContent = "Please fill in all fields.";
+        isSubmitting = false;
+        return;
+      }
+
+      submitButton.disabled = true;
       submitButton.textContent = 'Submitting...';
 
+      actions.post_comment.postComment({
+        article_id: articleId, 
+        comment,
+        author,
+      });
+
       setTimeout(() => {
-        submitButton.removeAttribute('disabled');
+        submitButton.disabled = false;
         submitButton.textContent = 'Submit Response';
         commentForm.reset();
+        isSubmitting = false;
       }, 2000);
     }
+
+    commentForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
   </script>
 </div>
 
@@ -167,5 +193,10 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+  }
+  .info {
+    color: red;
+    height: 1.5em;
+    font-size: 0.9em;
   }
 </style>
