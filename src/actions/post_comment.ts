@@ -22,6 +22,23 @@ export const post_comment = {
         throw new Error("Invalid article_id");
       }
 
+      // Validate the token with Google reCAPTCHA API
+      const recaptchaRes = await fetch(
+        "https://www.google.com/recaptcha/api/siteverify",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            secret: import.meta.env.RECAPTCHA_SECRET_KEY,
+            response: input.token,
+          }),
+        }
+      );
+      const recaptchaData = await recaptchaRes.json();
+      if (!recaptchaData.success) {
+        throw new Error("reCAPTCHA validation failed");
+      }
+
       // Insert the new comment
       await sql`
         INSERT INTO comments (article_id, content, author)
