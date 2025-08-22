@@ -14,6 +14,7 @@ export const post_comment = {
       article_id: z.string(),
       comment: z.string(),
       author: z.string(),
+      token: z.string(),
     }),
     handler: async (input, ctx) => {
       const article_id = input.article_id;
@@ -22,14 +23,12 @@ export const post_comment = {
       }
 
       // Insert the new comment
-      const response = await sql`
+      await sql`
         INSERT INTO comments (article_id, content, author)
         VALUES (${article_id}::uuid, ${input.comment}, ${input.author})
       `;
 
-      console.log(response);
-
-      return "test";
+      return "success";
     },
   }),
 };

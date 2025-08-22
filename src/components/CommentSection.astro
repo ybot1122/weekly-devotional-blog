@@ -57,51 +57,50 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
 
     const {data: comments} = await actions.fetch_comments.fetchComments({article_id: articleId});
 
+    function renderComment(comment: {author: string, created_at: string, content: string}) {
+      const commentDiv = document.createElement('div')!;
+      const commentAuthor = document.createElement('span')!;
+      const commentDate = document.createElement('span')!;
+      const commentContent = document.createElement('div')!;
+
+      commentAuthor.textContent = comment.author;
+      commentDate.textContent = new Date(comment.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+      commentContent.textContent = comment.content;
+
+      commentDiv.appendChild(commentAuthor);
+      commentDiv.appendChild(commentDate); 
+      commentDiv.appendChild(commentContent);
+
+      commentDiv.classList.add('comment');
+      commentAuthor.classList.add('comment-author');
+      commentDate.classList.add('comment-date');
+      commentContent.classList.add('comment-content');
+
+      commentDiv.setAttribute(cid, '');
+      commentAuthor.setAttribute(cid, '');
+      commentDate.setAttribute(cid, '');
+      commentContent.setAttribute(cid, '');
+
+      commentSection.appendChild(commentDiv);
+    }
+
     commentSection.removeChild(commentSection.children[0]!);
     if (!comments || comments.length === 0) {
       const noComments = document.createElement('p')!;
       noComments.textContent = "No responses yet.";
       commentSection.appendChild(noComments);
     } else {
-      comments.forEach(comment => {
-        const commentDiv = document.createElement('div')!;
-        const commentAuthor = document.createElement('span')!;
-        const commentDate = document.createElement('span')!;
-        const commentContent = document.createElement('div')!;
-
-        commentAuthor.textContent = comment.author;
-        commentDate.textContent = new Date(comment.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
-        commentContent.textContent = comment.content;
-
-        commentDiv.appendChild(commentAuthor);
-        commentDiv.appendChild(commentDate); 
-        commentDiv.appendChild(commentContent);
-        
-        commentDiv.classList.add('comment');
-        commentAuthor.classList.add('comment-author');
-        commentDate.classList.add('comment-date');
-        commentContent.classList.add('comment-content');
-
-        commentDiv.setAttribute(cid, '');
-        commentAuthor.setAttribute(cid, '');
-        commentDate.setAttribute(cid, '');
-        commentContent.setAttribute(cid, '');
-
-        commentSection.appendChild(commentDiv);
-      });
+      comments.forEach(comment => renderComment(comment as any));
     }
-  </script>
 
-  <script>
-    // handle comment form submission
-    import { actions } from "astro:actions";
+    // Handle form submission
     const commentForm = document.getElementById('comment-form')! as HTMLFormElement;
     const submitButton = commentForm.querySelector('button[type="submit"]') as HTMLButtonElement;
     const info = document.getElementById('info')!;
 
     let isSubmitting = false;
 
-    (window as any).onSubmit = function onSubmit(token: string) {
+    (window as any).onSubmit = async function onSubmit(token: string) {
       if (isSubmitting) return;
       isSubmitting = true;
       info.textContent = '';
@@ -121,19 +120,31 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
       submitButton.disabled = true;
       submitButton.textContent = 'Submitting...';
 
-      actions.post_comment.postComment({
-        article_id: articleId, 
-        comment,
-        author,
-      });
+      try {
+        await actions.post_comment.postComment({
+          article_id: articleId, 
+          comment,
+          author,
+          token,
+        });
 
-      setTimeout(() => {
+        commentForm.innerHTML = `
+          <p>Thank you for your response!</p>
+        `;
+
+        renderComment({author, created_at: new Date().toISOString(), content: comment});
+
+      } catch (e) {
+        console.error(e);
+        info.textContent = "An error occurred. Please try again.";
+      } finally {
+        isSubmitting = false;
         submitButton.disabled = false;
         submitButton.textContent = 'Submit Response';
-        commentForm.reset();
-        isSubmitting = false;
-      }, 2000);
+      }
+
     }
+
 
     commentForm.addEventListener('submit', (e) => {
       e.preventDefault();
