@@ -95,8 +95,23 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
     // handle comment form submission
     const commentForm = document.getElementById('comment-form')! as HTMLFormElement;
 
-    function onSubmit(token: string) {
-      commentForm.submit();
+    (window as any).onSubmit = function onSubmit(token: string) {
+      console.log(token)
+      console.log('Submitting comment form...');
+
+      const formData = new FormData(commentForm);
+      const articleId = commentForm.dataset.articleId ?? '';
+      formData.append('article_id', articleId);
+
+      const submitButton = commentForm.querySelector('button[type="submit"]') as HTMLButtonElement;
+      submitButton.setAttribute('disabled', 'true');
+      submitButton.textContent = 'Submitting...';
+
+      setTimeout(() => {
+        submitButton.removeAttribute('disabled');
+        submitButton.textContent = 'Submit Response';
+        commentForm.reset();
+      }, 2000);
     }
   </script>
 </div>
