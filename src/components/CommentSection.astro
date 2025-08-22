@@ -1,4 +1,5 @@
 ---
+const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
 ---
 
 <div class="comment-section">
@@ -6,7 +7,6 @@
   <div id="comment-list" data-article-id={Astro.props.articleId}>
     <p>loading...</p>
   </div>
-  <!--
   <form id="comment-form" class="comment-form" data-article-id={Astro.props.articleId}>
     <div class="form-group">
       <label for="author" class="form-label">Name</label>
@@ -19,7 +19,7 @@
       />
     </div>
     <div class="form-group">
-      <label for="content" class="form-label">Comment</label>
+      <label for="content" class="form-label">Response</label>
       <textarea
         id="content"
         name="content"
@@ -30,14 +30,26 @@
     </div>
     <button
       type="submit"
-      class="form-button"
-    >
-      Add Comment
+      class="g-recaptcha form-button" 
+      data-sitekey={RECAPTCHA_SITE_KEY}
+      data-callback='onSubmit' 
+      data-action='submit'>
+      Submit Response
     </button>
   </form>
--->
+
+  <!-- Dynamically load reCAPTCHA script to avoid CORS error -->
   <script>
+    const recaptchaScript = document.createElement('script');
+    recaptchaScript.src = `https://www.google.com/recaptcha/api.js`;
+    recaptchaScript.async = true;
+    document.head.appendChild(recaptchaScript);
+  </script>
+
+  <script>
+    // Fetch and display comments
     import { actions } from "astro:actions";
+
     const commentSection = document.getElementById('comment-list')!;
     const articleId = commentSection.dataset.articleId ?? '';
     const cid = 'data-astro-cid-'+ (Object.keys(commentSection.dataset).find(key => key.startsWith('astroCid'))?.substring(8).toLowerCase() ?? '');
@@ -76,6 +88,15 @@
 
         commentSection.appendChild(commentDiv);
       });
+    }
+  </script>
+
+  <script>
+    // handle comment form submission
+    const commentForm = document.getElementById('comment-form')! as HTMLFormElement;
+
+    function onSubmit(token: string) {
+      commentForm.submit();
     }
   </script>
 </div>
