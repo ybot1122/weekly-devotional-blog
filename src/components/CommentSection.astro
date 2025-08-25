@@ -4,7 +4,7 @@ import { COOKIES_RESPONSES } from "../consts";
 const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
 ---
 
-<div class="comment-section">
+<div id="responses" class="comment-section">
   <h3>Responses</h3>
   <div id="comment-list" data-article-id={Astro.props.articleId}>
     <p>loading...</p>
@@ -95,6 +95,9 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
     } else {
       comments.forEach(comment => renderComment(comment as any));
     }
+
+    const responseCount = comments?.length ?? 0;
+    document.getElementById('to-responses')!.textContent = `${responseCount} Response${responseCount === 1 ? '' : 's'}`;
 
     // Handle form submission
     const commentForm = document.getElementById('comment-form')! as HTMLFormElement;
