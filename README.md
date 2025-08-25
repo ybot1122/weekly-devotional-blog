@@ -19,4 +19,4 @@ Choose tone and voice to read the post. Splits the text into 3 parts, and loads 
 ![Screenshot 2025-06-16 155626](https://github.com/user-attachments/assets/5b0bdb5a-9c38-45b1-9913-267c17e80055)
 
 ## OpenAI Moderation Endpoint to Check User-Submitted Responses
-Users can submit responses to each post. Integration with OpenAI [Moderation endpoint](https://platform.openai.com/docs/guides/moderation) helps prevent harmful content from being published. Additionally, using the [Responses API to do additional vetting](https://github.com/ybot1122/weekly-devotional-blog/blob/main/src/actions/post_comment.ts), such as, "Does the following text contain swear words?" and "Does the following text contain coherent thoughts?".
+Users can submit responses to each post. Integration with OpenAI [Moderation endpoint](https://platform.openai.com/docs/guides/moderation) helps prevent harmful content from being published.

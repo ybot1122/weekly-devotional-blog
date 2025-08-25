@@ -1,6 +1,4 @@
 ---
-import { COOKIES_RESPONSES } from "../consts";
-
 const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
 ---
 
@@ -52,7 +50,6 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
   <script>
     // Fetch and display comments
     import { actions } from "astro:actions";
-    import { COOKIES_RESPONSES } from '../consts';
 
     const commentSection = document.getElementById('comment-list')!;
     const articleId = commentSection.dataset.articleId ?? '';
@@ -98,73 +95,65 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
 
     // Handle form submission
     const commentForm = document.getElementById('comment-form')! as HTMLFormElement;
-    const existingResponses = document.cookie.split('; ').find(row => row.startsWith(`${COOKIES_RESPONSES}=`))?.split('=')[1] || '';
-    const respondedArticles = existingResponses ? existingResponses.split(',') : [];
-    if (respondedArticles.includes(articleId)) {
-      commentForm.innerHTML = `<p>Thank you for your response!</p>`;
-    } else {
-      const submitButton = commentForm.querySelector('button[type="submit"]') as HTMLButtonElement;
-      const info = document.getElementById('info')!;
+    const submitButton = commentForm.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const info = document.getElementById('info')!;
 
-      let isSubmitting = false;
+    let isSubmitting = false;
 
-      (window as any).onSubmit = async function onSubmit(token: string) {
-        if (isSubmitting) return;
-        isSubmitting = true;
-        info.textContent = '';
+    (window as any).onSubmit = async function onSubmit(token: string) {
+      if (isSubmitting) return;
+      isSubmitting = true;
+      info.textContent = '';
 
-        const formData = new FormData(commentForm);
-        const articleId = commentForm.dataset.articleId ?? '';
-        formData.append('article_id', articleId);
+      const formData = new FormData(commentForm);
+      const articleId = commentForm.dataset.articleId ?? '';
+      formData.append('article_id', articleId);
 
-        const comment = formData.get('content')?.toString();
-        const author = formData.get('author')?.toString();
-        if (!comment || !author) {
-          info.textContent = "Please fill in all fields.";
-          isSubmitting = false;
+      const comment = formData.get('content')?.toString();
+      const author = formData.get('author')?.toString();
+      if (!comment || !author) {
+        info.textContent = "Please fill in all fields.";
+        isSubmitting = false;
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Submitting...';
+
+      try {
+        const result = await actions.post_comment.postComment({
+          article_id: articleId, 
+          comment,
+          author,
+          token,
+        });
+
+        if (result.data === true) {
+          commentForm.innerHTML = `
+            <p>Thank you for your response!</p>
+          `;
+        } else {
+          info.textContent = "Submission failed.";
           return;
         }
 
-        submitButton.disabled = true;
-        submitButton.textContent = 'Submitting...';
 
-        try {
-          const result = await actions.post_comment.postComment({
-            article_id: articleId, 
-            comment,
-            author,
-            token,
-          });
+        renderComment({author, created_at: new Date().toISOString(), content: comment});
 
-          if (result.data === true) {
-            commentForm.innerHTML = `
-              <p>Thank you for your response!</p>
-            `;
-          } else {
-            info.textContent = "Submission failed.";
-            return;
-          }
-
-          // Update cookie to prevent multiple responses
-          const newResponses = existingResponses ? existingResponses + ',' + articleId : articleId; 
-          document.cookie = `${COOKIES_RESPONSES}=${newResponses}; path=/; max-age=${60*60*24*365}`;
-
-          renderComment({author, created_at: new Date().toISOString(), content: comment});
-        } catch (e) {
-          console.error(e);
-          info.textContent = "An error occurred. Please try again.";
-        } finally {
-          isSubmitting = false;
-          submitButton.disabled = false;
-          submitButton.textContent = 'Submit Response';
-        }
+      } catch (e) {
+        console.error(e);
+        info.textContent = "An error occurred. Please try again.";
+      } finally {
+        isSubmitting = false;
+        submitButton.disabled = false;
+        submitButton.textContent = 'Submit Response';
       }
-
-      commentForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-      });
     }
+
+    commentForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
   </script>
 </div>
 
