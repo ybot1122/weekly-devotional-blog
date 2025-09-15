@@ -96,9 +96,6 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
       comments.forEach(comment => renderComment(comment as any));
     }
 
-    const responseCount = comments?.length ?? 0;
-    document.getElementById('to-responses')!.textContent = `${responseCount} Response${responseCount === 1 ? '' : 's'}`;
-
     // Handle form submission
     const commentForm = document.getElementById('comment-form')! as HTMLFormElement;
     const existingResponses = document.cookie.split('; ').find(row => row.startsWith(`${COOKIES_RESPONSES}=`))?.split('=')[1] || '';
@@ -110,6 +107,8 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
       const info = document.getElementById('info')!;
 
       let isSubmitting = false;
+
+      console.log('Setting up onSubmit');
 
       (window as any).onSubmit = async function onSubmit(token: string) {
         if (isSubmitting) return;
