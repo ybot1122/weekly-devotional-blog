@@ -78,13 +78,12 @@ const dayReadingSchema = z.object({
 });
 
 const blog = defineCollection({
-  // Load Markdown and MDX files in the `src/content/blog/` directory.
   loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}" }),
-  // Type-check frontmatter using a schema
   schema: z.object({
     id: z.string(),
     title: z.string(),
     description: z.string(),
+    author: z.string().default("Inya"),
     imagePrompt: z.string().optional(),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
